@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="MealAutomation@DESKTOP-142OO4N" uuid="628ee52b-b998-4e3a-8a42-3523752a8100">
+      <driver-ref>sqlserver.jtds</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:jtds:sqlserver://DESKTOP-142OO4N:1433/MealAutomation;instance=SQLEXPRESS</jdbc-url>
+    </data-source>
+  </component>
+</project>

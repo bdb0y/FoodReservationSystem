@@ -1,6 +1,9 @@
 package com.dev.foodreservation;
 
 public class Student {
+
+    public final static String STUDENT_TABLE = "MealAutomation.dbo.Student";
+
     private long rollId,
                  id;
     private String firstName,
