@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         StudentDAO studentDAO = new StudentDAO();
-        Student student = new Student(96L, 33L,
+        Student student = new Student(96112L, 1233L,
                 "amin", "rezaeizadeh", Byte.parseByte("0"), Byte.parseByte("10"));
         if (studentDAO.save(student)) System.out.println("inserted successfully");
         else System.out.println("Exists!");
