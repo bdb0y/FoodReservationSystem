@@ -1,6 +1,6 @@
 package com.dev.foodreservation.database;
 
-import com.dev.foodreservation.Student;
+import com.dev.foodreservation.objects.Student;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,12 +11,12 @@ import java.util.List;
 
 public class StudentDAO implements DAO<Student> {
 
-    private final Connection databaseConnection;
+    private final Connection connection;
     private final Statement Statement;
 
     public StudentDAO() throws SQLException {
-        databaseConnection = new DatabaseConnection().connect();
-        Statement = databaseConnection.createStatement();
+        connection = new DatabaseConnection().connect();
+        Statement = connection.createStatement();
     }
 
     @Override
@@ -26,7 +26,6 @@ public class StudentDAO implements DAO<Student> {
                 "EXEC [dbo].[getAllStudents]"
         );
         while (set.next()) students.add(studentRSV(set));
-
         return students;
     }
 
@@ -34,7 +33,7 @@ public class StudentDAO implements DAO<Student> {
     public List<Student> rollIdGet(long id) throws SQLException {
         List<Student> students = new ArrayList<>();
         ResultSet set = Statement.executeQuery(
-                "EXEC [dbo].[RollIdGetStudent] " +
+                "EXEC [dbo].[RollIdGetStudent]" +
                         "@ri = " + id
         );
         while (set.next()) students.add(studentRSV(set));
@@ -45,7 +44,7 @@ public class StudentDAO implements DAO<Student> {
     public List<Student> IdGet(long id) throws SQLException {
         List<Student> students = new ArrayList<>();
         ResultSet set = Statement.executeQuery(
-                "EXEC [dbo].[RollIdGetStudent] " +
+                "EXEC [dbo].[RollIdGetStudent]" +
                         "@id = " + id
         );
         while (set.next()) students.add(studentRSV(set));
@@ -111,4 +110,5 @@ public class StudentDAO implements DAO<Student> {
                 "@s = " + student.getGender() + ", " +
                 "@ml = " + student.getMealLimit() + "";
     }
+
 }

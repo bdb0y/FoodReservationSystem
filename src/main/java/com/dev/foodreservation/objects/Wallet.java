@@ -1,4 +1,4 @@
-package com.dev.foodreservation;
+package com.dev.foodreservation.objects;
 
 public class Wallet {
     private long studentRollId;

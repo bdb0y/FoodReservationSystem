@@ -1,4 +1,4 @@
-package com.dev.foodreservation;
+package com.dev.foodreservation.objects;
 
 import java.sql.Timestamp;
 import java.util.Date;

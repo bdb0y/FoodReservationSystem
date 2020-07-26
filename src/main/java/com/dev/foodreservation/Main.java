@@ -1,6 +1,7 @@
 package com.dev.foodreservation;
 
 import com.dev.foodreservation.database.StudentDAO;
+import com.dev.foodreservation.objects.Student;
 import com.github.mfathi91.time.PersianDate;
 
 import java.sql.SQLException;
