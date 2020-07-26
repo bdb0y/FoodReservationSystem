@@ -2,15 +2,18 @@ package com.dev.foodreservation.database;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public interface DAO<T> {
 
-    Optional<T> get(long id);
+    List<T> rollIdGet(long id) throws SQLException;
+    List<T> IdGet(long id) throws SQLException;
 
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
 
     boolean save(T t) throws SQLException;
-    boolean update(T t, T tt);
-    boolean delete(long id);
+    boolean updateNameSex(long id,
+                       String firstName, String lastName,
+                       byte sex) throws SQLException;
+    boolean updateStudentMealLimit(long id, byte limit) throws SQLException;
+    boolean delete(long id) throws SQLException;
 }
