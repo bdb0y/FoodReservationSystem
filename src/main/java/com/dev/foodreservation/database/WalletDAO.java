@@ -30,13 +30,13 @@ public class WalletDAO {
         return wallets;
     }
 
-    public boolean updateBalance(long id, double amount) throws SQLException {
-        return Statement.executeUpdate(
-                "EXEC [dbo].[UpdateBalance]" +
-                        "@ri ="+id+", " +
-                        "@b ="+amount
-        ) > 0;
-    }
+//    public boolean updateBalance(long id, double amount) throws SQLException {
+//        return Statement.executeUpdate(
+//                "EXEC [dbo].[UpdateBalance]" +
+//                        "@ri ="+id+", " +
+//                        "@b ="+amount
+//        ) > 0;
+//    }
 
     private Wallet walletRSV(ResultSet set) throws SQLException {
         return new Wallet(set.getLong(1),

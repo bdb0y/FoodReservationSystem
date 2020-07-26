@@ -4,6 +4,7 @@ import com.dev.foodreservation.database.StudentDAO;
 import com.dev.foodreservation.objects.Student;
 import com.github.mfathi91.time.PersianDate;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -19,7 +20,8 @@ public class Main {
         else System.out.println("Exists!");
 //        Time time = Time.valueOf(LocalTime.now());
         System.out.println(Time.valueOf(LocalTime.now()));
-        System.out.println(PersianDate.now());
+        System.out.println(PersianDate.now().toString());
+        System.out.println(Date.valueOf(PersianDate.now().toString()));
 
         List<Student> studentList = studentDAO.getAll();
         for(Student s : studentList) System.out.println(s.getFirstName());
