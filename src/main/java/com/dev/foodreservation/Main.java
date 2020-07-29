@@ -1,7 +1,9 @@
 package com.dev.foodreservation;
 
 import com.dev.foodreservation.database.StudentDAO;
+import com.dev.foodreservation.database.TransactionDAO;
 import com.dev.foodreservation.objects.Student;
+import com.dev.foodreservation.objects.WalletTransaction;
 import com.github.mfathi91.time.PersianDate;
 
 import java.sql.Date;
@@ -25,5 +27,11 @@ public class Main {
 
         List<Student> studentList = studentDAO.getAll();
         for(Student s : studentList) System.out.println(s.getFirstName());
+
+        TransactionDAO transactionDAO = new TransactionDAO();
+        transactionDAO.makeTransaction(96112, 23000);
+
+        List<WalletTransaction> walletTransactions = transactionDAO.getTransactions(-1);
+        for(WalletTransaction s : walletTransactions) System.out.println(s.getAmount());
     }
 }

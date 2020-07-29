@@ -24,10 +24,10 @@ public class TransactionDAO {
 
     public boolean makeTransaction(long id, double amount) throws SQLException {
         return Statement.executeUpdate(
-                "EXEC [dbo].[MakeTransation]" +
+                "EXEC [dbo].[MakeTransaction]" +
                         "@rii =" + id + "," +
-                        "@t =" + time + ", " +
-                        "@d =" + date + "," +
+                        "@t ='" + time + "' , " +
+                        "@d ='" + date + "' ," +
                         "@a =" + amount
         ) > 0;
     }
