@@ -1,7 +1,8 @@
 package com.dev.foodreservation.database;
 
 import com.dev.foodreservation.database.interfaces.IntWallet;
-import com.dev.foodreservation.database.utilities.ProcedureExecutor;
+import com.dev.foodreservation.database.utilities.Executor;
+import com.dev.foodreservation.database.utilities.Procedure;
 import com.dev.foodreservation.objects.Wallet;
 import com.dev.foodreservation.objects.WalletTransaction;
 import com.github.mfathi91.time.PersianDate;
@@ -27,16 +28,13 @@ public class WalletDAO implements IntWallet {
 
     @Override
     public List<Wallet> get(long id) throws SQLException {
+        Procedure procedure = new Procedure("GetBalance");
+        procedure.addField("ri", id);
         List<Wallet> wallets = new ArrayList<>();
-        ResultSet resultSet;
-        resultSet = statement.executeQuery(
-                "EXEC [dbo].[GetBalance]" +
-                        "@ri =" + id
-        );
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
         while (resultSet.next()) wallets.add(walletRSV(resultSet));
         return wallets;
     }
-
 
     @Override
     public boolean chargeUp(long id, double amount) throws SQLException {
@@ -45,42 +43,24 @@ public class WalletDAO implements IntWallet {
 
     @Override
     public boolean makeTransaction(long id, double amount) throws SQLException {
-        ProcedureExecutor procedureExecutor =
-                new ProcedureExecutor("MakeTransaction");
-        procedureExecutor.addVariable("rii", id);
-        procedureExecutor.addVariable("t", time);
-        procedureExecutor.addVariable("d", date);
-        procedureExecutor.addVariable("a", amount);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("MakeTransaction");
+        procedure.addField("rii", id);
+        procedure.addField("t", time);
+        procedure.addField("d", date);
+        procedure.addField("a", amount);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public List<WalletTransaction> getTransactions(long id) throws SQLException {
+        Procedure procedure = new Procedure("GetTransactions");
+        procedure.addField("ri", id);
         List<WalletTransaction> transactions = new ArrayList<>();
-        ResultSet resultSet;
-        if (id == -1)
-            resultSet = statement.executeQuery(
-                    "EXEC [dbo].[GetAllTransactions]"
-            );
-        else
-            resultSet = statement.executeQuery(
-                    "EXEC [dbo].[GetTransactions]" +
-                            "@ri =" + id
-            );
-
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
         while (resultSet.next())
             transactions.add(walletTransactionsRSV(resultSet));
         return transactions;
     }
-
-    private int ExecuteUpdate(ProcedureExecutor procedure) throws SQLException {
-        return statement.executeUpdate(procedure.get());
-    }
-
-    private ResultSet Execute(ProcedureExecutor procedure) throws SQLException {
-        return statement.executeQuery(procedure.get());
-    }
-
 
     private WalletTransaction
     walletTransactionsRSV(ResultSet resultSet) throws SQLException {

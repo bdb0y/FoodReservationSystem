@@ -1,7 +1,8 @@
 package com.dev.foodreservation.database;
 
 import com.dev.foodreservation.database.interfaces.IntMeal;
-import com.dev.foodreservation.database.utilities.ProcedureExecutor;
+import com.dev.foodreservation.database.utilities.Executor;
+import com.dev.foodreservation.database.utilities.Procedure;
 import com.dev.foodreservation.objects.Meal;
 
 import java.sql.*;
@@ -21,80 +22,70 @@ public class MealDAO implements IntMeal {
 
     @Override
     public boolean add(String mealName, byte mealType, double price) throws SQLException {
-        ProcedureExecutor procedureExecutor = new ProcedureExecutor("SaveMeal");
-        procedureExecutor.addVariable("n", mealName);
-        procedureExecutor.addVariable("mt", mealType);
-        procedureExecutor.addVariable("p", price);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("SaveMeal");
+        procedure.addField("n", mealName);
+        procedure.addField("mt", mealType);
+        procedure.addField("p", price);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public boolean remove(int id) throws SQLException {
-        ProcedureExecutor procedureExecutor = new ProcedureExecutor("removeMeal");
-        procedureExecutor.addVariable("mid", id);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("removeMeal");
+        procedure.addField("mid", id);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public boolean updateInfo(int id, String name, byte mealType, double price)
             throws SQLException {
-        ProcedureExecutor procedureExecutor = new ProcedureExecutor("UpdateMeal");
-        procedureExecutor.addVariable("i", id);
-        procedureExecutor.addVariable("n", name);
-        procedureExecutor.addVariable("mt", mealType);
-        procedureExecutor.addVariable("p", price);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("UpdateMeal");
+        procedure.addField("i", id);
+        procedure.addField("n", name);
+        procedure.addField("mt", mealType);
+        procedure.addField("p", price);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public boolean reserve(long studentId, int mealCalendarId, int kitchenId, Date date,
                            Time time) throws SQLException {
-        ProcedureExecutor procedureExecutor = new ProcedureExecutor("ReserveMeal");
-        procedureExecutor.addVariable("sri", studentId);
-        procedureExecutor.addVariable("mci", mealCalendarId);
-        procedureExecutor.addVariable("ki", kitchenId);
-        procedureExecutor.addVariable("dd", date);
-        procedureExecutor.addVariable("tt", time);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("ReserveMeal");
+        procedure.addField("sri", studentId);
+        procedure.addField("mci", mealCalendarId);
+        procedure.addField("ki", kitchenId);
+        procedure.addField("dd", date);
+        procedure.addField("tt", time);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public boolean cancel(int mealReservationId) throws SQLException {
-        ProcedureExecutor procedureExecutor =
-                new ProcedureExecutor("cancelReservedMeal");
-        procedureExecutor.addVariable("mri", mealReservationId);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure = new Procedure("cancelReservedMeal");
+        procedure.addField("mri", mealReservationId);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public boolean update(int mealReservationId, int mealCalendarId, int kitchenId)
             throws SQLException {
-        ProcedureExecutor procedureExecutor =
-                new ProcedureExecutor("UpdateMealCalendar");
-        procedureExecutor.addVariable("i", mealReservationId);
-        procedureExecutor.addVariable("mci", mealCalendarId);
-        procedureExecutor.addVariable("ki", kitchenId);
-        return ExecuteUpdate(procedureExecutor) > 0;
+        Procedure procedure =
+                new Procedure("UpdateMealCalendar");
+        procedure.addField("i", mealReservationId);
+        procedure.addField("mci", mealCalendarId);
+        procedure.addField("ki", kitchenId);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
     public List<Meal> get(int id) throws SQLException {
-        ProcedureExecutor procedureExecutor =
-                new ProcedureExecutor("getMeal");
-        procedureExecutor.addVariable("id", id);
+        Procedure procedure = new Procedure("getMeal");
+        procedure.addField("id", id);
         List<Meal> meals = new ArrayList<>();
-        ResultSet resultSet = Execute(procedureExecutor);
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
 
-        while(resultSet.next()) meals.add(MealRSV(resultSet));
+        while (resultSet.next()) meals.add(MealRSV(resultSet));
         return null;
-    }
-
-    private int ExecuteUpdate(ProcedureExecutor procedure) throws SQLException {
-        return statement.executeUpdate(procedure.get());
-    }
-
-    private ResultSet Execute(ProcedureExecutor procedure) throws SQLException {
-        return statement.executeQuery(procedure.get());
     }
 
     private Meal MealRSV(ResultSet set) throws SQLException {

@@ -3,17 +3,17 @@ package com.dev.foodreservation.database.utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcedureExecutor {
+public class Procedure {
 
     private String name;
     private List<FieldVariable> fieldVariables
             = new ArrayList<>();
 
-    public ProcedureExecutor(String name){
+    public Procedure(String name){
          this.name = name;
     }
 
-    public void addVariable(String key, Object value) {
+    public void addField(String key, Object value) {
         fieldVariables.add(new FieldVariable(key, String.valueOf(value)));
     }
 
