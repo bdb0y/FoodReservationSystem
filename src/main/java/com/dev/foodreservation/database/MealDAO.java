@@ -21,7 +21,8 @@ public class MealDAO implements IntMeal {
     }
 
     @Override
-    public boolean add(String mealName, byte mealType, double price) throws SQLException {
+    public boolean add(String mealName, byte mealType, double price)
+            throws SQLException {
         Procedure procedure = new Procedure("SaveMeal");
         procedure.addField("n", mealName);
         procedure.addField("mt", mealType);
@@ -48,8 +49,8 @@ public class MealDAO implements IntMeal {
     }
 
     @Override
-    public boolean reserve(long studentId, int mealCalendarId, int kitchenId, Date date,
-                           Time time) throws SQLException {
+    public boolean reserve(long studentId, int mealCalendarId, int kitchenId,
+                           Date date, Time time) throws SQLException {
         Procedure procedure = new Procedure("ReserveMeal");
         procedure.addField("sri", studentId);
         procedure.addField("mci", mealCalendarId);
@@ -67,7 +68,8 @@ public class MealDAO implements IntMeal {
     }
 
     @Override
-    public boolean update(int mealReservationId, int mealCalendarId, int kitchenId)
+    public boolean update(int mealReservationId, int mealCalendarId,
+                          int kitchenId)
             throws SQLException {
         Procedure procedure =
                 new Procedure("UpdateMealCalendar");
