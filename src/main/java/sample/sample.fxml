@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="481.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="49.0" layoutY="101.0" prefHeight="268.0" prefWidth="383.0" style="-fx-background-color: white; -fx-background-radius: .75em;" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="49.0" AnchorPane.topAnchor="101.0">
+         <children>
+            <VBox alignment="CENTER" layoutY="59.0" prefHeight="247.0" prefWidth="283.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="59.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Login as a:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXRadioButton selected="true" text="Student">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="accessablity" />
+                           </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton layoutX="76.0" layoutY="32.0" text="Admin" toggleGroup="$accessablity" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="50.0" right="50.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <JFXTextField labelFloat="true" promptText="username">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXPasswordField labelFloat="true" promptText="password">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <JFXButton alignment="CENTER" prefHeight="74.0" prefWidth="143.0" style="-fx-background-color: linear-gradient(to left bottom, #3282b8, #3282b8, #3282b8, #3282b8, #3282b8);;" text="Login" textFill="WHITE" VBox.vgrow="NEVER" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="50.0" right="50.0" />
+         </padding>
+      </AnchorPane>
+      <AnchorPane layoutX="185.0" layoutY="46.0" prefHeight="66.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 25em 25em 0 0;" AnchorPane.leftAnchor="184.99999999999997" AnchorPane.rightAnchor="185.6" AnchorPane.topAnchor="46.0" />
+   </children>
+</AnchorPane>

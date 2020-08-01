@@ -1,0 +1,139 @@
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+}
+
+/* .table-view .table-row-cell {
+    -fx-background-color: red;
+} */
+
+.table-view .table-row-cell {
+    -fx-cell-size: 35;
+}
+
+.table-view .table-row-cell .label {
+    -fx-font-size: 30;
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: #0f4c75;
+    -fx-alignment: CENTER_LEFT
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button, 
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #0f4c75,0%);
+    -fx-background-insets: 4, 0, 0;
+    -fx-width: 2px;
+	-fx-background-radius: 2em;
+}
+
+.menu-button {
+    -fx-background-color: #0f4c75;
+    -fx-background-radius: 25em 0 0 25em;
+}
+
+/*.menu-button:hover {*/
+/*    -fx-background-color: white;*/
+/*    -fx-background-radius: 25em 0 0 25em;*/
+/*    -fx-text-fill: #0f4c75;*/
+/*}*/
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+/* .combo-box .list-cell 
+{
+    -fx-background: #0f4c75;
+    -fx-background-color: #0f4c75;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+} */
+
+/* .combo-box-popup .list-view 
+{
+    -fx-background-color: white, white;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+}    
+
+.combo-box-popup .list-view .list-cell 
+{
+    -fx-padding: 4 0 4 5; */
+
+    /* No alternate highlighting */
+    /* -fx-background-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: white;
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+.combo-box-base  
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";
+    -fx-background-color: white, white, white, white;
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.combo-box-base:hover
+{
+    -fx-color: -fx-hover-base;
+}
+
+.combo-box-base:showing 
+{
+    -fx-color:  #0fwhite4c75;
+}
+
+.combo-box-base .label
+{
+    -fx-text-fill:  #0f4c75;
+} */
+
+/* .combo-box-base:focused {
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-radius: 6.4, 4, 5, 3;
+    -fx-background-insets: -1.4, 0, 1, 2;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+} */

@@ -13,9 +13,7 @@ public interface IntStudent {
     List<Student> getAll() throws SQLException;
 
     boolean save(Student t) throws SQLException;
-    boolean updateNameSex(long id,
-                       String firstName, String lastName,
-                       byte sex) throws SQLException;
+    boolean updateNameSex(Student student) throws SQLException;
     boolean updateStudentMealLimit(long id, byte limit) throws SQLException;
     boolean delete(long id) throws SQLException;
 }

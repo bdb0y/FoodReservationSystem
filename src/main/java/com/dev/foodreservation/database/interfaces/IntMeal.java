@@ -22,5 +22,6 @@ public interface IntMeal {
 
     boolean update(int mealReservationId, int mealCalendarId, int kitchenId) throws SQLException;
 
-    List<Meal> get(int id) throws SQLException;
+    List<Meal> idGet(int id) throws SQLException;
+    List<Meal> nameGet(String name) throws SQLException;
 }

@@ -64,13 +64,13 @@ public class StudentDAO implements IntStudent {
     }
 
     @Override
-    public boolean updateNameSex(long id, String firstName,
-                                 String lastName, byte sex) throws SQLException {
+    public boolean updateNameSex(Student student) throws SQLException {
         Procedure procedure = new Procedure("UpdateStudentFirstNameLastName");
-        procedure.addField("ri", id);
-        procedure.addField("fn", firstName);
-        procedure.addField("ln", lastName);
-        procedure.addField("sx", sex);
+        procedure.addField("ri", student.getRollId());
+        procedure.addField("fn", student.getFirstName());
+        procedure.addField("ln", student.getLastName());
+        procedure.addField("sx", student.getGender());
+        procedure.addField("ml", student.getMealLimit());
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 

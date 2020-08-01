@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="717.0" prefWidth="1006.0" style="-fx-background-color: brown;" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <AnchorPane layoutX="27.0" layoutY="23.0" prefHeight="622.0" prefWidth="952.0" style="-fx-background-color: white; -fx-background-radius: 2em;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="23.0">
+         <children>
+            <AnchorPane layoutY="84.0" prefHeight="538.0" prefWidth="192.0" style="-fx-background-color: #0f4c75; -fx-background-radius: 0 5em 0 2em;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="84.0">
+               <children>
+                  <VBox alignment="TOP_RIGHT" layoutX="39.0" layoutY="111.0" prefHeight="200.0" prefWidth="189.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+                     <children>
+                        <JFXButton fx:id="studentMenuSection" alignment="TOP_LEFT" focusTraversable="false" prefHeight="40.0" prefWidth="182.0" ripplerFill="#d7d7d7" styleClass="menu-button" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" text="Student" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="30.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="mealMenuSection" alignment="TOP_LEFT" focusTraversable="false" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="182.0" ripplerFill="#d7d7d7" styleClass="menu-button" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" text="Meal" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="30.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="kitchenMenuSection" alignment="TOP_LEFT" focusTraversable="false" layoutX="10.0" layoutY="54.0" prefHeight="26.0" prefWidth="182.0" ripplerFill="#d7d7d7" styleClass="menu-button" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" text="Kitchen" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="30.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="reportMenuSection" alignment="TOP_LEFT" focusTraversable="false" layoutX="32.0" layoutY="103.0" prefHeight="26.0" prefWidth="182.0" ripplerFill="#d7d7d7" styleClass="menu-button" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" text="Report" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="30.0" top="5.0" />
+                           </padding>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <Label layoutX="53.0" layoutY="24.0" text="Foodix" textFill="#0f4c75" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <Label fx:id="sectionTitle" layoutX="218.0" layoutY="84.0" text="Student" textFill="#0f4c75">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="date" layoutX="772.0" layoutY="34.0" text="Wendnesday 01/01/1399" textFill="#0f4c75" AnchorPane.rightAnchor="14.399999999999977" AnchorPane.topAnchor="34.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="219.0" layoutY="128.0" prefHeight="0.0" prefWidth="683.0" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="15.0" />
+            <TabPane fx:id="mainTabPain" layoutX="218.0" layoutY="103.0" prefHeight="567.0" prefWidth="720.0" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="218.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="103.0">
+              <tabs>
+                <Tab style="visibility: hidden;" text="Untitled Tab 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="274.0" prefWidth="699.0">
+                           <children>
+                              <TabPane fx:id="studentTabPain" layoutX="1.0" layoutY="38.0" prefHeight="412.0" prefWidth="690.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <tabs>
+                                  <Tab closable="false" style="-fx-background-color: transparent; visibility: hidden;" text="Untitled Tab 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="543.0">
+                                             <children>
+                                                <VBox layoutX="9.0" layoutY="13.0" prefHeight="387.0" prefWidth="628.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <Label text="Personal Information" textFill="#0f4c75">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="61.0" prefHeight="42.0" prefWidth="618.0" spacing="10.0">
+                                                         <children>
+                                                            <Label text="This is a">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXRadioButton fx:id="male" focusTraversable="false" style="-jfx-selected-color: #0f4c75;" text="Man">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="gender" />
+                                                               </toggleGroup>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </JFXRadioButton>
+                                                            <JFXRadioButton fx:id="female" focusTraversable="false" style="-jfx-selected-color: #0f4c75;" text="Woman" toggleGroup="$gender">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </JFXRadioButton>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox prefHeight="42.0" prefWidth="618.0" spacing="10.0">
+                                                         <children>
+                                                            <JFXTextField fx:id="firstNameField" labelFloat="true" promptText="First name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXTextField fx:id="lastNameField" labelFloat="true" layoutX="10.0" layoutY="10.0" promptText="Last name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXTextField fx:id="nationalIdField" labelFloat="true" layoutX="189.0" layoutY="10.0" promptText="National Id">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox layoutX="20.0" layoutY="46.0" prefHeight="42.0" prefWidth="618.0" spacing="50.0">
+                                                         <children>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="University Information" textFill="#0f4c75">
+                                                                     <font>
+                                                                        <Font size="16.0" />
+                                                                     </font>
+                                                                     <VBox.margin>
+                                                                        <Insets bottom="15.0" />
+                                                                     </VBox.margin>
+                                                                  </Label>
+                                                                  <JFXTextField fx:id="rollIdField" labelFloat="true" promptText="Roll id">
+                                                                     <font>
+                                                                        <Font size="15.0" />
+                                                                     </font>
+                                                                  </JFXTextField>
+                                                               </children>
+                                                            </VBox>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Meal Information" textFill="#0f4c75">
+                                                                     <font>
+                                                                        <Font size="16.0" />
+                                                                     </font>
+                                                                     <VBox.margin>
+                                                                        <Insets bottom="15.0" />
+                                                                     </VBox.margin>
+                                                                  </Label>
+                                                                  <VBox>
+                                                                     <children>
+                                                                        <JFXTextField fx:id="mealLimitField" labelFloat="true" promptText="Meal limit">
+                                                                           <font>
+                                                                              <Font size="15.0" />
+                                                                           </font>
+                                                                        </JFXTextField>
+                                                                        <Label text="* Number of meals per reservation " textFill="RED">
+                                                                           <font>
+                                                                              <Font size="10.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </children>
+                                                                  </VBox>
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="171.0" prefWidth="674.0">
+                                                         <children>
+                                                            <AnchorPane HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <JFXButton fx:id="submitButton" layoutX="549.0" layoutY="121.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0" />
+                                                                  <VBox>
+                                                                     <children>
+                                                                        <Label text="Available kitchens" textFill="#0f4c75">
+                                                                           <font>
+                                                                              <Font size="16.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                        <JFXListView fx:id="kitchenList" prefHeight="171.0" prefWidth="238.0" style="-fx-background-color: transparent;" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <VBox layoutX="257.0">
+                                                                     <children>
+                                                                        <Label text="Selected kitchens" textFill="#0f4c75">
+                                                                           <font>
+                                                                              <Font size="16.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                        <JFXListView fx:id="selectedKitchenList" prefHeight="171.0" prefWidth="242.0" style="-fx-background-color: transparent;" />
+                                                                     </children>
+                                                                  </VBox>
+                                                               </children>
+                                                            </AnchorPane>
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab closable="false" style="-fx-background-color: transparent; visibility: hidden;" text="Untitled Tab 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="683.0">
+                                             <children>
+                                                <VBox layoutX="292.0" layoutY="106.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <HBox prefHeight="23.0" prefWidth="683.0" spacing="10.0">
+                                                         <children>
+                                                            <TextField fx:id="studentModifySearchField" focusTraversable="false" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
+                                                            <JFXComboBox fx:id="studentModifySearchFilterCombo" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" />
+                                                            <JFXButton fx:id="studentModifySearchButton" focusTraversable="false" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <TableView fx:id="studentModifyTableView" focusTraversable="false" prefHeight="131.0" stylesheets="@../../../../../Documents/project%20test/MealAutomationApp/src/main/java/sample/TableStyle.css">
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </TableView>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="674.0" spacing="10.0">
+                                                         <children>
+                                                            <Label maxWidth="1.7976931348623157E308" text="Choose what to modify" textFill="#0f4c75" HBox.hgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXComboBox fx:id="studentModificationFilter" disable="true" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" promptText="Modification" unFocusColor="#0f4c75" />
+                                                            <JFXButton fx:id="studentModificationSaveButton" disable="true" focusTraversable="false" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <Separator prefWidth="200.0">
+                                                         <VBox.margin>
+                                                            <Insets left="20.0" right="20.0" />
+                                                         </VBox.margin>
+                                                      </Separator>
+                                                      <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <Label text="Selected student is" textFill="#0f4c75">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="selectedStudentRollId" layoutX="10.0" layoutY="10.0" text="-----------">
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <TabPane fx:id="studentModificationTabPane" prefHeight="198.0" prefWidth="674.0" tabClosingPolicy="UNAVAILABLE">
+                                                        <tabs>
+                                                          <Tab closable="false" style="visibility: hidden;" text="Untitled Tab 1">
+                                                            <content>
+                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                                     <children>
+                                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <children>
+                                                                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                                                 <children>
+                                                                                    <Label text="This is a" textFill="#0f4c75">
+                                                                                       <font>
+                                                                                          <Font size="16.0" />
+                                                                                       </font>
+                                                                                    </Label>
+                                                                                    <JFXRadioButton fx:id="changeMale" style="-jfx-selected-color: #0f4c75; -jfx-unselected-color: #0f4c75;" text="Man" textFill="#0f4c75">
+                                                                                       <toggleGroup>
+                                                                                          <ToggleGroup fx:id="changeG" />
+                                                                                       </toggleGroup>
+                                                                                    </JFXRadioButton>
+                                                                                    <JFXRadioButton fx:id="changeFemale" style="-jfx-selected-color: #0f4c75; -jfx-unselected-color: #0f4c75;" text="Woman" textFill="#0f4c75" toggleGroup="$changeG" />
+                                                                                 </children>
+                                                                              </HBox>
+                                                                              <HBox prefWidth="200.0" spacing="15.0">
+                                                                                 <children>
+                                                                                    <JFXTextField fx:id="changeFirstName" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" promptText="First name" style="-jfx-unfocus-color: #0f4c75;" unFocusColor="#0f4c75">
+                                                                                       <font>
+                                                                                          <Font size="15.0" />
+                                                                                       </font>
+                                                                                    </JFXTextField>
+                                                                                    <JFXTextField fx:id="changeLastName" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" layoutX="10.0" layoutY="10.0" promptText="Last name" style="-jfx-unfocus-color: #0f4c75;" unFocusColor="#0f4c75">
+                                                                                       <font>
+                                                                                          <Font size="15.0" />
+                                                                                       </font>
+                                                                                    </JFXTextField>
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets left="15.0" top="15.0" />
+                                                                                 </padding>
+                                                                              </HBox>
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets top="10.0" />
+                                                                           </padding>
+                                                                        </VBox>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                            </content>
+                                                          </Tab>
+                                                          <Tab closable="false" style="visibility: hidden;" text="Untitled Tab 2">
+                                                            <content>
+                                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="674.0">
+                                                                     <children>
+                                                                        <HBox layoutX="44.0" layoutY="-10.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <children>
+                                                                              <JFXTextField fx:id="changeMealLimit" focusColor="#0f4c75" labelFloat="true" promptText="Meal limit">
+                                                                                 <font>
+                                                                                    <Font size="15.0" />
+                                                                                 </font>
+                                                                              </JFXTextField>
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets left="15.0" top="15.0" />
+                                                                           </padding>
+                                                                        </HBox>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                            </content>
+                                                          </Tab>
+                                                            <Tab closable="false" style="visibility: hidden;" text="Untitled Tab 2">
+                                                               <content>
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                                     <children>
+                                                                        <HBox layoutX="44.0" layoutY="-10.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </content>
+                                                            </Tab>
+                                                        </tabs>
+                                                      </TabPane>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets top="25.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                </tabs>
+                              </TabPane>
+                              <HBox prefHeight="33.0" prefWidth="699.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton fx:id="addStudentTab" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="ADD STUDENT" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="modifyStudentTab" focusTraversable="false" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="MODIFY STUDENT" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab style="visibility: hidden;" text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TabPane fx:id="mealTabPain" layoutX="2.0" layoutY="47.0" prefHeight="322.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <tabs>
+                                  <Tab style="visibility: hidden;" text="Untitled Tab 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox layoutX="300.0" layoutY="154.0" prefWidth="100.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <Label text="Meal information" textFill="#0f4c75">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <JFXTextField fx:id="nameField" labelFloat="true" promptText="name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXTextField fx:id="priceField" labelFloat="true" layoutX="10.0" layoutY="10.0" promptText="price">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXComboBox fx:id="typeFilter" focusColor="#0f4c75" labelFloat="true" promptText="type" unFocusColor="#0f4c75" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                                <JFXButton fx:id="addMealSubmitButton" layoutX="513.0" layoutY="389.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab style="visibility: hidden;" text="Untitled Tab 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox layoutX="300.0" layoutY="154.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <TextField fx:id="mealModifySearchField" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
+                                                            <JFXButton fx:id="mealModifySearchButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                         </children>
+                                                      </HBox>
+                                                      <TableView fx:id="mealModifyTableView" prefHeight="131.0" prefWidth="699.0">
+                                                         <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                         </columnResizePolicy>
+                                                      </TableView>
+                                                      <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <Label maxWidth="1.7976931348623157E308" text="Make your changes in fields below" textFill="#0f4c75" HBox.hgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXButton fx:id="mealModifySaveButton" maxWidth="74.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <JFXTextField fx:id="changeMealName" focusColor="#0f4c75" labelFloat="true" promptText="Name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXTextField fx:id="changeMealPrice" focusColor="#0f4c75" labelFloat="true" layoutX="10.0" layoutY="10.0" promptText="Price">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXComboBox fx:id="changeMealTypeFilter" focusColor="#0f4c75" labelFloat="true" promptText="Type" unFocusColor="#0f4c75" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets top="25.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                    <Tab style="visibility: hidden;" text="Untitled Tab 3">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                       </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                              <HBox layoutX="250.0" prefHeight="33.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton fx:id="addMealTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="ADD MEAL" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="modifyMealTab" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="MODIFY MEAL" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="mealCalendarTab" layoutX="352.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="Meal Calendar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab style="visibility: hidden;" text="Untitled Tab 2">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TabPane fx:id="kitchenTabPain" layoutX="2.0" layoutY="47.0" prefHeight="322.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <tabs>
+                                    <Tab style="visibility: hidden;" text="Untitled Tab 1">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox layoutX="300.0" layoutY="154.0" prefWidth="100.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <Label text="Kitchen information" textFill="#0f4c75">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <JFXTextField fx:id="kitchenName" labelFloat="true" promptText="name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXComboBox fx:id="kitchenType" focusColor="#0f4c75" labelFloat="true" promptText="type" unFocusColor="#0f4c75" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                                <JFXButton layoutX="398.0" layoutY="318.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </AnchorPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab style="visibility: hidden;" text="Untitled Tab 2">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox layoutX="300.0" layoutY="154.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <TextField fx:id="kitchenModifySearchField" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
+                                                            <JFXButton fx:id="kitchenModifySearchButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                         </children>
+                                                      </HBox>
+                                                      <TableView fx:id="kitchenModifyTableView" prefHeight="131.0" prefWidth="699.0">
+                                                         <columns>
+                                                            <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Name" />
+                                                            <TableColumn editable="false" minWidth="-1.0" prefWidth="75.0" sortable="false" text="Type" />
+                                                         </columns>
+                                                         <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                         </columnResizePolicy>
+                                                      </TableView>
+                                                      <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <Label maxWidth="1.7976931348623157E308" text="Make your changes in fields below" textFill="#0f4c75" HBox.hgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXButton maxWidth="74.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <JFXTextField fx:id="changeKitchenName" focusColor="#0f4c75" labelFloat="true" promptText="Name">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </JFXTextField>
+                                                            <JFXComboBox fx:id="changeKitchenType" focusColor="#0f4c75" labelFloat="true" promptText="Type" unFocusColor="#0f4c75" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets top="25.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
+                              <HBox layoutX="250.0" prefHeight="33.0" prefWidth="699.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton fx:id="addKitchenTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="ADD KITCHEN" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="modifyKitchenTab" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="MODIFY KITCHEN" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Untitled Tab">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TabPane fx:id="reportTabPain" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <tabs>
+                                  <Tab style="visibility: hidden;" text="Untitled Tab 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox layoutX="300.0" layoutY="154.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="35.0" spacing="10.0">
+                                                         <children>
+                                                            <Label maxWidth="1.7976931348623157E308" text="Data shown below is based on" textFill="#0f4c75" HBox.hgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXComboBox focusColor="#0f4c75" labelFloat="true" maxWidth="1.7976931348623157E308" promptText="Filter" unFocusColor="#0f4c75" HBox.hgrow="ALWAYS" />
+                                                            <JFXButton prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                         <children>
+                                                            <TextField promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
+                                                            <JFXComboBox focusColor="#0f4c75" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" />
+                                                            <JFXButton prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets top="25.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab style="visibility: hidden;" text="Untitled Tab 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </Tab>
+                                </tabs>
+                              </TabPane>
+                              <HBox layoutX="229.0" layoutY="14.0" prefHeight="33.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton fx:id="studentReportTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="STUDENT" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="mealReportTab" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="MEAL" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="kitchenReportTab" layoutX="657.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="KITCHEN" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="transactionReportTab" layoutX="474.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="TRANSACTIONS" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <AnchorPane layoutX="188.0" layoutY="24.0">
+               <children>
+                  <AnchorPane fx:id="errorBadge" prefHeight="40.0" prefWidth="576.0" style="-fx-background-color: brown; -fx-background-radius: .5em;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text fill="WHITE" layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields are required and should be filled up properly, CLICK FOR MORE INFO." wrappingWidth="540.5366973876953" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="successBadge" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="576.0" style="-fx-background-color: green; -fx-background-radius: .5em;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Text fill="WHITE" layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields are filled properly. WE'RE GOOD!" wrappingWidth="540.5366973876953" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="10.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,20 +1,25 @@
 package com.dev.foodreservation.objects;
 
 public class Meal {
+
+    public static final int BREAKFAST = 0;
+    public static final int LAUNCH = 1;
+    public static final int DINNER = 2;
+
     private int id;
-    private byte mealType;
+    private byte type;
     private String name;
     private double price;
 
-    public Meal(int id, byte mt, String name, double price) {
+    public Meal(int id, byte type, String name, double price) {
         this.id = id;
-        this.mealType = mt;
+        this.type = type;
         this.name = name;
         this.price = price;
     }
 
-    public void setMealType(byte mt) {
-        this.mealType = mt;
+    public void setType(byte type) {
+        this.type = type;
     }
 
     public void setName(String name) {
@@ -29,8 +34,8 @@ public class Meal {
         return id;
     }
 
-    public byte getMealType() {
-        return mealType;
+    public byte getType() {
+        return type;
     }
 
     public String getName() {
@@ -39,5 +44,15 @@ public class Meal {
 
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

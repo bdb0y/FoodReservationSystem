@@ -80,7 +80,7 @@ public class MealDAO implements IntMeal {
     }
 
     @Override
-    public List<Meal> get(int id) throws SQLException {
+    public List<Meal> idGet(int id) throws SQLException {
         Procedure procedure = new Procedure("getMeal");
         procedure.addField("id", id);
         List<Meal> meals = new ArrayList<>();
@@ -90,12 +90,23 @@ public class MealDAO implements IntMeal {
         return null;
     }
 
+    @Override
+    public List<Meal> nameGet(String name) throws SQLException {
+        Procedure procedure = new Procedure("GetNameMeal");
+        procedure.addField("n", name);
+        List<Meal> meals = new ArrayList<>();
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
+
+        while (resultSet.next()) meals.add(MealRSV(resultSet));
+        return meals;
+    }
+
     private Meal MealRSV(ResultSet set) throws SQLException {
         return new Meal(
-                set.getInt("1"),
-                set.getByte("3"),
-                set.getString("2"),
-                set.getDouble("4")
+                set.getInt(1),
+                set.getByte(3),
+                set.getString(2),
+                set.getDouble(4)
         );
     }
 }

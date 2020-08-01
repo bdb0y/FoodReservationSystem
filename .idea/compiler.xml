@@ -9,8 +9,8 @@
         <module name="FoodReservationSystem" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="FoodReservationSystem" target="8" />
+    <bytecodeTargetLevel target="9">
+      <module name="FoodReservationSystem" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>

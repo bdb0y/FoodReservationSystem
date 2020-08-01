@@ -2,6 +2,11 @@ package com.dev.foodreservation.objects;
 
 public class Student {
 
+    public static final int MALE = 0;
+    public static final int FEMALE = 1;
+    public static String S_MALE = "Man";
+    public static String S_FEMALE = "Woman";
+
     public final static String STUDENT_TABLE = "MealAutomation.dbo.Student";
 
     private long rollId,
@@ -58,5 +63,17 @@ public class Student {
 
     public byte getMealLimit() {
         return mealLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "rollId=" + rollId +
+                ", id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", mealLimit=" + mealLimit +
+                '}';
     }
 }

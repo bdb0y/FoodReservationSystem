@@ -22,4 +22,13 @@ public class Kitchen {
     public byte getKitchenType() {
         return kitchenType;
     }
+
+    @Override
+    public String toString() {
+        return "Kitchen{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", kitchenType=" + kitchenType +
+                '}';
+    }
 }
