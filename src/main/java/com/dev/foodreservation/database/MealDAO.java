@@ -101,6 +101,17 @@ public class MealDAO implements IntMeal {
         return meals;
     }
 
+    @Override
+    public List<Meal> typeGet(int type) throws SQLException {
+        Procedure procedure = new Procedure("GetTypeMeal");
+        procedure.addField("type", type);
+        List<Meal> meals = new ArrayList<>();
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
+
+        while (resultSet.next()) meals.add(MealRSV(resultSet));
+        return meals;
+    }
+
     private Meal MealRSV(ResultSet set) throws SQLException {
         return new Meal(
                 set.getInt(1),

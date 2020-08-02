@@ -65,6 +65,13 @@ public class Student {
         return mealLimit;
     }
 
+    public boolean differs(Student student){
+        return !this.firstName.equals(student.firstName)
+                || !this.lastName.equals(student.lastName)
+                || this.gender != student.getGender()
+                || this.mealLimit != student.getMealLimit();
+    }
+
     @Override
     public String toString() {
         return "Student{" +

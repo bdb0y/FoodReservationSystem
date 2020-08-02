@@ -48,7 +48,7 @@ public class KitchenDAO implements IntKitchen {
     }
 
     @Override
-    public List<Kitchen> get(int id) throws SQLException {
+    public List<Kitchen> idGet(int id) throws SQLException {
         Procedure procedure = new Procedure("GetKitchen");
         procedure.addField("id", id);
         List<Kitchen> kitchens = new ArrayList<>();
@@ -58,11 +58,33 @@ public class KitchenDAO implements IntKitchen {
         return kitchens;
     }
 
+    @Override
+    public List<Kitchen> nameGet(String name) throws SQLException {
+        Procedure procedure = new Procedure("GetNameKitchen");
+        procedure.addField("n", name);
+        List<Kitchen> kitchens = new ArrayList<>();
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
+
+        while (resultSet.next()) kitchens.add(kitchenRSV(resultSet));
+        return kitchens;
+    }
+
+    @Override
+    public List<Kitchen> typeGet(int type) throws SQLException {
+        Procedure procedure = new Procedure("GetKitchenMeal");
+        procedure.addField("type", type);
+        List<Kitchen> kitchens = new ArrayList<>();
+        ResultSet resultSet = new Executor(statement).Execute(procedure);
+
+        while (resultSet.next()) kitchens.add(kitchenRSV(resultSet));
+        return kitchens;
+    }
+
     private Kitchen kitchenRSV(ResultSet resultSet) throws SQLException {
         return new Kitchen(
-                resultSet.getInt("1"),
-                resultSet.getString("2"),
-                resultSet.getByte("3")
+                resultSet.getInt(1),
+                resultSet.getString(2),
+                resultSet.getByte(3)
         );
     }
 }

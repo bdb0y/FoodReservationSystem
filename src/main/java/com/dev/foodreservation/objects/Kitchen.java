@@ -23,6 +23,12 @@ public class Kitchen {
         return kitchenType;
     }
 
+    public boolean differs(Kitchen kitchen) {
+        return (!this.name.equals(kitchen.getName())
+                || this.kitchenType !=
+                kitchen.getKitchenType());
+    }
+
     @Override
     public String toString() {
         return "Kitchen{" +

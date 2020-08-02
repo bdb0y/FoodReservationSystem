@@ -10,7 +10,7 @@ public interface IntStudent {
     List<Student> rollIdGet(long id) throws SQLException;
     List<Student> IdGet(long id) throws SQLException;
 
-    List<Student> getAll() throws SQLException;
+    List<Student> getAll(int flag) throws SQLException;
 
     boolean save(Student t) throws SQLException;
     boolean updateNameSex(Student student) throws SQLException;

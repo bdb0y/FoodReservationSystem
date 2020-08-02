@@ -24,4 +24,5 @@ public interface IntMeal {
 
     List<Meal> idGet(int id) throws SQLException;
     List<Meal> nameGet(String name) throws SQLException;
+    List<Meal> typeGet(int type) throws SQLException;
 }

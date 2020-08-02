@@ -46,6 +46,12 @@ public class Meal {
         return price;
     }
 
+    public boolean differs(Meal meal){
+        return (!this.name.equals(meal.getName())
+                    || this.type != meal.getType()
+                        || this.price != meal.price);
+    }
+
     @Override
     public String toString() {
         return "Meal{" +

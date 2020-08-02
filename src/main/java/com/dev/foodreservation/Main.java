@@ -24,8 +24,8 @@ public class Main {
         System.out.println(PersianDate.now().toString());
         System.out.println(Date.valueOf(PersianDate.now().toString()));
 
-        List<Student> studentList = studentDAO.getAll();
-        for(Student s : studentList) System.out.println(s.getFirstName());
+//        List<Student> studentList = studentDAO.getAll();
+//        for(Student s : studentList) System.out.println(s.getFirstName());
 
     }
 }

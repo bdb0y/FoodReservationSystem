@@ -1,5 +1,6 @@
 package sample;
 
+import com.dev.foodreservation.database.KitchenDAO;
 import com.dev.foodreservation.database.MealDAO;
 import com.dev.foodreservation.database.StudentDAO;
 import com.dev.foodreservation.database.utilities.FieldController;
@@ -9,6 +10,7 @@ import com.dev.foodreservation.objects.Meal;
 import com.dev.foodreservation.objects.Student;
 import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.*;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Controller implements Initializable {
@@ -153,9 +157,33 @@ public class Controller implements Initializable {
     @FXML
     JFXButton studentReportTab;
     @FXML
+    JFXComboBox studentReportFilter;
+    @FXML
+    JFXButton studentReportGetButton;
+    @FXML
+    TableView studentReportTableView;
+    @FXML
+    Label studentReportTotal;
+    @FXML
     JFXButton mealReportTab;
     @FXML
+    JFXComboBox mealReportFilter;
+    @FXML
+    JFXButton mealReportGetButton;
+    @FXML
+    TableView mealReportTableView;
+    @FXML
+    Label mealReportTotal;
+    @FXML
     JFXButton kitchenReportTab;
+    @FXML
+    JFXComboBox kitchenReportFilter;
+    @FXML
+    JFXButton kitchenReportGetButton;
+    @FXML
+    TableView kitchenReportTableView;
+    @FXML
+    Label kitchenReportTotal;
     @FXML
     JFXButton transactionReportTab;
     @FXML
@@ -173,6 +201,8 @@ public class Controller implements Initializable {
     private SingleSelectionModel<JFXComboBox> modifyFilterSelection;
     private SingleSelectionModel<Tab> modificationTabSelection;
     private TableView.TableViewSelectionModel<TableView> studentModifyTableViewSelection;
+
+    private ExecutorService exec;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -227,9 +257,210 @@ public class Controller implements Initializable {
         mealModifySearchClickListener();
         mealModifyTableViewInitializer();
         mealModifyTableViewItemListener();
+        mealModifySaveButtonClickListener();
         kitchenSubmitButtonClickListener();
-
+        kitchenTypeFilterInjection();
+        kitchenModifyTableViewInitializer();
+        kitchenModifySearchButtonClickListener();
+        kitchenModifyTableViewItemListener();
+        kitchenModifySaveButtonClickListener();
+        reportFilterInjection();
+        studentReportTableViewInitializer();
+        mealReportTableViewInitializer();
+        kitchenReportTableViewInitializer();
+        studentReportGetButtonClickListener();
         studentClickListeners();
+        studentReportFilter.getSelectionModel()
+                .select(0);
+        mealReportFilter.getSelectionModel()
+                .select(0);
+        kitchenReportFilter.getSelectionModel()
+                .select(0);
+        mealReportGetButtonClickListener();
+        kitchenReportGetButtonClickListener();
+
+        exec = Executors.newCachedThreadPool((runnable) -> {
+            Thread t = new Thread (runnable);
+            t.setDaemon(true);
+            return t;
+        });
+
+    }
+
+    private void kitchenReportGetButtonClickListener() {
+        kitchenReportGetButton.setOnMouseClicked(event ->
+                getKitchenReport());
+    }
+
+    private void getKitchenReport() {
+        kitchenReportTableView.getItems()
+                .clear();
+        int filter = kitchenReportFilter
+                .getSelectionModel().getSelectedIndex();
+        if(filter == 2) filter = -1;
+        try {
+            int finalFilter = filter;
+            Task<List<Kitchen>> task = new Task<>() {
+                @Override
+                public List<Kitchen> call() throws Exception {
+                    return new KitchenDAO().typeGet(finalFilter);
+                }
+            };
+
+            task.setOnFailed(e-> task.getException().printStackTrace());
+            task.setOnSucceeded(e-> {
+                List<Kitchen> taskKitchen = task.getValue();
+                kitchenReportTotal
+                        .setText(String.valueOf(taskKitchen.size()));
+                kitchenReportTableView.getItems()
+                        .addAll(taskKitchen);
+            });
+            exec.execute(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mealReportGetButtonClickListener() {
+        mealReportGetButton.setOnMouseClicked(event ->
+                getMealReport());
+    }
+
+    private void getMealReport() {
+        mealReportTableView.getItems()
+                .clear();
+        int filter = mealReportFilter
+                .getSelectionModel().getSelectedIndex();
+        if(filter == 3) filter = -1;
+        try {
+            int finalFilter = filter;
+            Task<List<Meal>> task = new Task<>() {
+                @Override
+                public List<Meal> call() throws Exception {
+                    return new MealDAO().typeGet(finalFilter);
+                }
+            };
+
+            task.setOnFailed(e-> task.getException().printStackTrace());
+            task.setOnSucceeded(e-> {
+                List<Meal> taskMeal = task.getValue();
+                mealReportTotal
+                        .setText(String.valueOf(taskMeal.size()));
+                mealReportTableView.getItems()
+                        .addAll(taskMeal);
+            });
+            exec.execute(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void studentReportGetButtonClickListener() {
+        studentReportGetButton.setOnMouseClicked(event ->
+                getStudentReport());
+    }
+
+    private void getStudentReport() {
+        studentReportTableView.getItems()
+                .clear();
+        int studentFilter = studentReportFilter
+                .getSelectionModel().getSelectedIndex();
+        if (studentFilter == 2) studentFilter = -1;
+        try {
+            int finalStudentFilter = studentFilter;
+            Task<List<Student>> task = new Task<>() {
+                @Override
+                public List<Student> call() throws Exception {
+                    return new StudentDAO().getAll(finalStudentFilter);
+                }
+            };
+
+            task.setOnFailed(e-> task.getException().printStackTrace());
+            task.setOnSucceeded(e-> {
+                List<Student> taskStudent = task.getValue();
+                studentReportTableView
+                        .getItems().addAll(taskStudent);
+                studentReportTotal
+                        .setText(String.valueOf(taskStudent.size()));
+            });
+            exec.execute(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mealModifySaveButtonClickListener() {
+        mealModifySaveButton.setOnMouseClicked(event ->
+                updateMeal());
+    }
+
+    private void updateMeal() {
+        System.out.println(changeMealFields());
+    }
+
+    private Meal changeMealFields() {
+        Meal meal =
+                (Meal) SharedPreferences
+                        .get("mealModification");
+        return new Meal(
+                meal.getId(),
+                (byte) changeMealTypeFilter.getSelectionModel()
+                        .getSelectedIndex(),
+                (String) getFieldValue(changeMealName,
+                        FieldController.STRING),
+                (double) getFieldValue(changeMealPrice,
+                        FieldController.DOUBLE)
+        );
+    }
+
+    private void kitchenModifySaveButtonClickListener() {
+        changeKitchenSaveButton.setOnMouseClicked(event ->
+                updateKitchen());
+    }
+
+    private void updateKitchen() {
+        System.out.println(changeKitchenFields());
+    }
+
+    private Kitchen changeKitchenFields() {
+        Kitchen kitchen =
+                (Kitchen) SharedPreferences
+                        .get("modifyKitchen");
+        return new Kitchen(
+                kitchen.getId(),
+                (String) getFieldValue(changeKitchenName,
+                        FieldController.STRING),
+                (byte) changeKitchenType.getSelectionModel()
+                        .getSelectedIndex()
+        );
+    }
+
+    private void kitchenModifySearchButtonClickListener() {
+        kitchenModifySearchButton.setOnMouseClicked(event ->
+                searchKitchen());
+    }
+
+    private void searchKitchen() {
+        String name = "";
+        try {
+            name =
+                    (String) getFieldValue(kitchenModifySearchField,
+                            FieldController.STRING);
+        } catch (Exception e) {
+
+        }
+        if (name != null && !name.isEmpty()) {
+
+            List<Kitchen> kitchens;
+
+            try {
+                kitchenModifyTableView.getItems().clear();
+                kitchens = new KitchenDAO().nameGet(name);
+                kitchenModifyTableView.getItems().addAll(kitchens);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void kitchenSubmitButtonClickListener() {
@@ -247,6 +478,21 @@ public class Controller implements Initializable {
                 (String) getFieldValue(kitchenName, FieldController.STRING),
                 (byte) kitchenType.getSelectionModel().getSelectedIndex()
         );
+    }
+
+    private void kitchenTypeFilterInjection() {
+        List<String> kitchenFilters = new ArrayList<>();
+        kitchenFilters.add("Men");
+        kitchenFilters.add("Women");
+        kitchenFilters.add("Men-Women");
+        kitchenType.getItems().addAll(kitchenFilters);
+
+        List<String> changeKitchenFilters = new ArrayList<>();
+        changeKitchenFilters.add("Men");
+        changeKitchenFilters.add("Women");
+        changeKitchenFilters.add("Men-Women");
+        changeKitchenType.getItems().addAll(changeKitchenFilters);
+
     }
 
     private void mealModifySearchClickListener() {
@@ -320,8 +566,12 @@ public class Controller implements Initializable {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-        System.out.println(updateStudentModifySectionFields());
-
+        try {
+            System.out.println(updateStudentModifySectionFields());
+        } catch (NullPointerException e) {
+            System.out.println("The information is exactly the " +
+                    "same nothing to change");
+        }
     }
 
     private void studentModifyTableViewItemListener() {
@@ -349,6 +599,28 @@ public class Controller implements Initializable {
                 enableMealModification();
             }
         });
+    }
+
+    private void kitchenModifyTableViewItemListener() {
+        kitchenModifyTableView.setOnMouseClicked(event -> {
+            Object object =
+                    kitchenModifyTableView.getSelectionModel()
+                            .getSelectedItem();
+            if (object != null) {
+                Kitchen kitchen =
+                        (Kitchen) object;
+                SharedPreferences.add("modifyKitchen", kitchen);
+                enableKitchenModification();
+            }
+        });
+    }
+
+    private void enableKitchenModification() {
+        Kitchen kitchen =
+                (Kitchen) SharedPreferences.get("modifyKitchen");
+        changeKitchenName.setText(kitchen.getName());
+        changeKitchenType.getSelectionModel()
+                .select(kitchen.getKitchenType());
     }
 
     private void enableMealModification() {
@@ -416,6 +688,71 @@ public class Controller implements Initializable {
 
         mealModifyTableView.getColumns().addAll(
                 nameColumn, priceColumn, typeColumn
+        );
+    }
+
+    private void kitchenModifyTableViewInitializer() {
+        TableColumn nameColumn = new TableColumn("Name");
+        nameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        TableColumn kitchenTypeColumn = new TableColumn("Type");
+        kitchenTypeColumn.setCellValueFactory(
+                new PropertyValueFactory<>("kitchenType"));
+
+        kitchenModifyTableView.getColumns().addAll(
+                nameColumn, kitchenTypeColumn
+        );
+    }
+
+    private void studentReportTableViewInitializer() {
+        TableColumn nameColumn = new TableColumn("First Name");
+        nameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("firstName"));
+
+        TableColumn lastNameColumn = new TableColumn("Last Name");
+        lastNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("lastName"));
+
+        TableColumn rollIdColumn = new TableColumn("Roll id");
+        rollIdColumn.setCellValueFactory(
+                new PropertyValueFactory<>("rollId"));
+
+        TableColumn nationalIdColumn = new TableColumn("National id");
+        nationalIdColumn.setCellValueFactory(
+                new PropertyValueFactory<>("id"));
+
+        TableColumn mealLimitColumn = new TableColumn("Meal limit");
+        mealLimitColumn.setCellValueFactory(
+                new PropertyValueFactory<>("mealLimit"));
+
+        studentReportTableView.getColumns().addAll(
+                nameColumn, lastNameColumn, rollIdColumn,
+                nationalIdColumn, mealLimitColumn
+        );
+    }
+
+    private void mealReportTableViewInitializer() {
+        TableColumn nameColumn = new TableColumn("Name");
+        nameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        TableColumn priceColumn = new TableColumn("Price");
+        priceColumn.setCellValueFactory(
+                new PropertyValueFactory<>("price"));
+
+        mealReportTableView.getColumns().addAll(
+                nameColumn, priceColumn
+        );
+    }
+
+    private void kitchenReportTableViewInitializer() {
+        TableColumn nameColumn = new TableColumn("Name");
+        nameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        kitchenReportTableView.getColumns().addAll(
+                nameColumn
         );
     }
 
@@ -490,7 +827,29 @@ public class Controller implements Initializable {
         changeTypeFilter.add("Breakfast");
         changeTypeFilter.add("Launch");
         changeTypeFilter.add("Dinner");
+        changeTypeFilter.add("All");
         changeMealTypeFilter.getItems().addAll(changeTypeFilter);
+    }
+
+    private void reportFilterInjection() {
+        List<String> reportStudent = new ArrayList<>();
+        reportStudent.add("Male");
+        reportStudent.add("Female");
+        reportStudent.add("Male-Female");
+        studentReportFilter.getItems().addAll(reportStudent);
+
+        List<String> reportMeal = new ArrayList<>();
+        reportMeal.add("Breakfast");
+        reportMeal.add("Launch");
+        reportMeal.add("Dinner");
+        reportMeal.add("All");
+        mealReportFilter.getItems().addAll(reportMeal);
+
+        List<String> reportKitchen = new ArrayList<>();
+        reportKitchen.add("Men");
+        reportKitchen.add("Women");
+        reportKitchen.add("Men-Women");
+        kitchenReportFilter.getItems().addAll(reportKitchen);
     }
 
     private void studentModificationFilterAction() {
@@ -662,7 +1021,7 @@ public class Controller implements Initializable {
     private Student updateStudentModifySectionFields() {
         Student student = (Student) SharedPreferences
                 .get("selectedStudentModifySection");
-        return new Student(
+        Student newStudent = new Student(
                 student.getRollId(),
                 student.getId(),
                 (String) getFieldValue(changeFirstName,
@@ -674,6 +1033,8 @@ public class Controller implements Initializable {
                 (byte) getFieldValue(changeMealLimit,
                         FieldController.BYTE)
         );
+        if (student.differs(newStudent)) return newStudent;
+        else throw new NullPointerException();
     }
 
     private Object getFieldValue(TextField textField,
@@ -682,7 +1043,7 @@ public class Controller implements Initializable {
         String value = textField.getText().trim();
         if (fieldController == FieldController.STRING) {
             for (char c : value.toCharArray())
-                if (!Character.isAlphabetic(c))
+                if (!Character.isAlphabetic(c) && !Character.isSpaceChar(c))
                     throw new InputMismatchException();
             return value.trim();
         } else if (fieldController == FieldController.BYTE) {
