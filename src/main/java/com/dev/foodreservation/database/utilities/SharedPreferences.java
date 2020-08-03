@@ -15,4 +15,12 @@ public class SharedPreferences {
     public static Object get(String key) {
         return preferences.get(key);
     }
+
+    public static void clear() {
+        preferences.clear();
+    }
+
+    public static void remove(String key) {
+        preferences.remove(key);
+    }
 }

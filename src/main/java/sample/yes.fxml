@@ -205,7 +205,7 @@
                                                          <children>
                                                             <AnchorPane HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <JFXButton fx:id="submitButton" layoutX="549.0" layoutY="121.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0" />
+                                                                  <JFXButton fx:id="submitButton" layoutX="549.0" layoutY="121.0" onMouseClicked="#addStudentSubmit" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0" />
                                                                   <VBox>
                                                                      <children>
                                                                         <Label text="Available kitchens" textFill="#0f4c75">
@@ -249,13 +249,13 @@
                                                          <children>
                                                             <TextField fx:id="studentModifySearchField" focusTraversable="false" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
                                                             <JFXComboBox fx:id="studentModifySearchFilterCombo" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" />
-                                                            <JFXButton fx:id="studentModifySearchButton" focusTraversable="false" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                            <JFXButton fx:id="studentModifySearchButton" focusTraversable="false" onMouseClicked="#studentModificationSearchButtonListener" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
                                                       </HBox>
-                                                      <TableView fx:id="studentModifyTableView" focusTraversable="false" prefHeight="131.0" stylesheets="@TableStyle.css">
+                                                      <TableView fx:id="studentModifyTableView" focusTraversable="false" onMouseClicked="#studentModifyTableViewItemListener" prefHeight="131.0" stylesheets="@TableStyle.css">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
@@ -268,7 +268,8 @@
                                                                </font>
                                                             </Label>
                                                             <JFXComboBox fx:id="studentModificationFilter" disable="true" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" promptText="Modification" unFocusColor="#0f4c75" />
-                                                            <JFXButton fx:id="studentModificationSaveButton" disable="true" focusTraversable="false" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton fx:id="studentModificationSaveButton" disable="true" focusTraversable="false" onMouseClicked="#updateStudent" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton disable="true" focusTraversable="false" layoutX="667.0" layoutY="14.0" onMouseClicked="#updateStudent" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets />
@@ -431,7 +432,7 @@
                                                       </HBox>
                                                    </children>
                                                 </VBox>
-                                                <JFXButton fx:id="addMealSubmitButton" layoutX="513.0" layoutY="389.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
+                                                <JFXButton fx:id="addMealSubmitButton" layoutX="513.0" layoutY="389.0" onMouseClicked="#addMealSubmit" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
                                              </children>
                                              <padding>
                                                 <Insets top="10.0" />
@@ -448,10 +449,10 @@
                                                       <HBox alignment="BOTTOM_LEFT" spacing="10.0">
                                                          <children>
                                                             <TextField fx:id="mealModifySearchField" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton fx:id="mealModifySearchButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                            <JFXButton fx:id="mealModifySearchButton" onMouseClicked="#searchMeal" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
                                                          </children>
                                                       </HBox>
-                                                      <TableView fx:id="mealModifyTableView" prefHeight="131.0" prefWidth="699.0">
+                                                      <TableView fx:id="mealModifyTableView" onMouseClicked="#mealModifyTableViewItemListener" prefHeight="131.0" prefWidth="699.0">
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                          </columnResizePolicy>
@@ -463,7 +464,8 @@
                                                                   <Font size="16.0" />
                                                                </font>
                                                             </Label>
-                                                            <JFXButton fx:id="mealModifySaveButton" maxWidth="74.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton fx:id="mealModifySaveButton" maxWidth="74.0" onMouseClicked="#updateMeal" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton layoutX="656.0" layoutY="10.0" maxWidth="74.0" onMouseClicked="#updateMeal" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="5.0" />
@@ -540,7 +542,7 @@
                                                       </HBox>
                                                    </children>
                                                 </VBox>
-                                                <JFXButton fx:id="kitchenSubmitButton" layoutX="398.0" layoutY="318.0" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
+                                                <JFXButton fx:id="kitchenSubmitButton" layoutX="398.0" layoutY="318.0" onMouseClicked="#addKitchenSubmit" prefHeight="39.0" prefWidth="127.0" style="-fx-background-color: #0f4c75;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="10.0" />
                                              </children>
                                              <padding>
                                                 <Insets top="10.0" />
@@ -557,10 +559,10 @@
                                                       <HBox alignment="BOTTOM_LEFT" spacing="10.0">
                                                          <children>
                                                             <TextField fx:id="kitchenModifySearchField" promptText="Enter something to search for" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton fx:id="kitchenModifySearchButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
+                                                            <JFXButton fx:id="kitchenModifySearchButton" onMouseClicked="#searchKitchen" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Search" textFill="WHITE" />
                                                          </children>
                                                       </HBox>
-                                                      <TableView fx:id="kitchenModifyTableView" prefHeight="131.0" prefWidth="699.0">
+                                                      <TableView fx:id="kitchenModifyTableView" onMouseClicked="#kitchenModifyTableViewItemListener" prefHeight="131.0" prefWidth="699.0">
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                          </columnResizePolicy>
@@ -572,7 +574,8 @@
                                                                   <Font size="16.0" />
                                                                </font>
                                                             </Label>
-                                                            <JFXButton fx:id="changeKitchenSaveButton" maxWidth="74.0" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton fx:id="changeKitchenSaveButton" maxWidth="74.0" onMouseClicked="#updateKitchen" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
+                                                            <JFXButton layoutX="656.0" layoutY="10.0" maxWidth="74.0" onMouseClicked="#updateKitchen" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="5.0" />
@@ -629,7 +632,7 @@
                                                                </font>
                                                             </Label>
                                                             <JFXComboBox fx:id="studentReportFilter" focusColor="#0f4c75" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton fx:id="studentReportGetButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
+                                                            <JFXButton fx:id="studentReportGetButton" onMouseClicked="#getStudentReport" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
@@ -676,7 +679,7 @@
                                                                </font>
                                                             </Label>
                                                             <JFXComboBox fx:id="mealReportFilter" focusColor="#0f4c75" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton fx:id="mealReportGetButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
+                                                            <JFXButton fx:id="mealReportGetButton" onMouseClicked="#getMealReport" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
@@ -723,7 +726,7 @@
                                                                </font>
                                                             </Label>
                                                             <JFXComboBox fx:id="kitchenReportFilter" focusColor="#0f4c75" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton fx:id="kitchenReportGetButton" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
+                                                            <JFXButton fx:id="kitchenReportGetButton" onMouseClicked="#getKitchenReport" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="10.0" />
