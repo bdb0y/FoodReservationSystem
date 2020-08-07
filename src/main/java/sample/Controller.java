@@ -1,12 +1,14 @@
 package sample;
 
 import com.dev.foodreservation.database.KitchenDAO;
+import com.dev.foodreservation.database.MealCalendarDAO;
 import com.dev.foodreservation.database.MealDAO;
 import com.dev.foodreservation.database.StudentDAO;
 import com.dev.foodreservation.database.utilities.FieldController;
 import com.dev.foodreservation.database.utilities.SharedPreferences;
 import com.dev.foodreservation.objects.Kitchen;
 import com.dev.foodreservation.objects.Meal;
+import com.dev.foodreservation.objects.SetupMealCalendar;
 import com.dev.foodreservation.objects.Student;
 import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.*;
@@ -19,10 +21,8 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.sql.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -128,6 +128,28 @@ public class Controller implements Initializable {
     JFXComboBox changeMealTypeFilter;
     @FXML
     JFXButton mealCalendarTab;
+    @FXML
+    Label mealCalendarFromToDate;
+    @FXML JFXButton preButton;
+    @FXML JFXButton nextButton;
+    @FXML
+    JFXComboBox mealCalendarKitchenFilter;
+    @FXML
+    JFXComboBox mealCalendarMealType;
+    @FXML
+    TableView mealCalendarTableView;
+    @FXML
+    Label selectedMealType;
+    @FXML
+    Label selectedDate;
+    @FXML
+    Label selectedDay;
+    @FXML
+    Label selectedKitchen;
+    @FXML
+    JFXComboBox mealCalendarName;
+    @FXML
+    JFXTextField mealCalendarTotal;
     @FXML
     private TabPane kitchenTabPain;
     @FXML
@@ -260,6 +282,8 @@ public class Controller implements Initializable {
         mealReportTableViewInitializer();
         kitchenReportTableViewInitializer();
         studentClickListeners();
+        getThisWeekRange();
+
         studentReportFilter.getSelectionModel()
                 .select(0);
         mealReportFilter.getSelectionModel()
@@ -273,6 +297,9 @@ public class Controller implements Initializable {
             return t;
         });
 
+        mealCalendarKitchenFilterInjection();
+        mealCalendarTableViewInitializer();
+        setupMealCalendar();
     }
 
     // Start------------ Student > Add Student -------------
@@ -452,6 +479,13 @@ public class Controller implements Initializable {
         );
     }
 
+    @FXML
+    private void setModificationSection() {
+        studentModificationTabPane.getSelectionModel()
+                .select(studentModificationFilter
+                        .getSelectionModel().getSelectedIndex());
+    }
+
     // End-------------- Student > Modify Student -------------
 
     // Start------------ Meal > Add meal -------------
@@ -574,6 +608,156 @@ public class Controller implements Initializable {
 
     // End-------------- Meal > Modify meal -------------
 
+    // Start------------ Meal > Meal Calendar -------------
+
+    private void getThisWeekRange() {
+        PersianDate date = PersianDate.now();
+        int todayValue = date.getDayOfWeek().getValue() + 2;
+        if (todayValue == 8 || todayValue == 9) todayValue -= 7;
+        PersianDate from = date.plusDays(-(todayValue - 1));
+        PersianDate to = date.plusDays((7 - todayValue));
+        SharedPreferences.add("fromDate", from);
+        SharedPreferences.add("toDate", to);
+        setFromToDateRange();
+    }
+
+    private void setFromToDateRange() {
+        PersianDate fromDate =
+                (PersianDate) SharedPreferences.get("fromDate"),
+                toDate =
+                        (PersianDate) SharedPreferences.get("toDate");
+        String result = fromDate.toString().replaceAll("-", "/")
+                + " - " + toDate.toString().replaceAll("-", "/");
+        mealCalendarFromToDate.setText(result);
+    }
+
+    private void mealCalendarTableViewInitializer() {
+        TableColumn<SetupMealCalendar, Date> dateColumn =
+                new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(
+                new PropertyValueFactory<>("date"));
+        dateColumn.setReorderable(false);
+        dateColumn.setSortable(false);
+
+        TableColumn<SetupMealCalendar, String> dayColumn =
+                new TableColumn<>("Day");
+        dayColumn.setCellValueFactory(
+                new PropertyValueFactory<>("day"));
+        dayColumn.setReorderable(false);
+        dayColumn.setSortable(false);
+
+        TableColumn<SetupMealCalendar, String> breakfastColumn =
+                new TableColumn<>("Breakfast");
+        breakfastColumn.setCellValueFactory(
+                new PropertyValueFactory<>("breakfastName"));
+        breakfastColumn.setReorderable(false);
+        breakfastColumn.setSortable(false);
+
+        TableColumn<SetupMealCalendar, String> launchColumn =
+                new TableColumn<>("Launch");
+        launchColumn.setCellValueFactory(
+                new PropertyValueFactory<>("launchName"));
+        launchColumn.setReorderable(false);
+        launchColumn.setSortable(false);
+
+        TableColumn<SetupMealCalendar, String> dinnerColumn =
+                new TableColumn<>("Dinner");
+        dinnerColumn.setCellValueFactory(
+                new PropertyValueFactory<>("dinnerName"));
+        dinnerColumn.setReorderable(false);
+        dinnerColumn.setSortable(false);
+
+        mealCalendarTableView.getColumns().addAll(
+                dateColumn, dayColumn, breakfastColumn,
+                launchColumn, dinnerColumn
+        );
+    }
+
+    private void mealCalendarKitchenFilterInjection() {
+        Task<List<Kitchen>> task = new Task<>() {
+            @Override
+            public List<Kitchen> call() throws Exception {
+                return new KitchenDAO().idGet(-1);
+            }
+        };
+
+        task.setOnFailed(e -> task.getException().printStackTrace());
+        task.setOnSucceeded(e -> {
+            List<Kitchen> taskKitchens = task.getValue();
+            mealCalendarKitchenFilter
+                    .getItems().addAll(taskKitchens);
+            mealCalendarKitchenFilter.getSelectionModel()
+                    .select(0);
+            selectedKitchen
+                    .setText(String.valueOf(mealCalendarKitchenFilter
+                            .getSelectionModel()
+                            .getSelectedItem().toString()));
+        });
+        exec.execute(task);
+    }
+
+    @FXML
+    private void setupMealCalendar() {
+        mealCalendarTableView.getItems().clear();
+        preButton.setDisable(true);
+        nextButton.setDisable(true);
+        Task<List<SetupMealCalendar>> task = new Task<>() {
+            @Override
+            public List<SetupMealCalendar> call() throws Exception {
+                PersianDate fromDate = (PersianDate) SharedPreferences.get("fromDate"),
+                        toDate = (PersianDate) SharedPreferences.get("toDate");
+                return new MealCalendarDAO().getMealCalendar(
+                        1,
+                        Date.valueOf(fromDate.toString()),
+                        Date.valueOf(toDate.toString())
+                );
+            }
+        };
+
+        task.setOnFailed(e -> {
+            task.getException().printStackTrace();
+            preButton.setDisable(false);
+            nextButton.setDisable(false);
+        });
+        task.setOnSucceeded(e -> {
+            List<SetupMealCalendar> taskCalendar = task.getValue();
+            mealCalendarTableView
+                    .getItems().addAll(taskCalendar);
+            System.out.println(taskCalendar);
+            preButton.setDisable(false);
+            nextButton.setDisable(false);
+        });
+        exec.execute(task);
+    }
+
+    @FXML
+    private void nextWeekRange() {
+        PersianDate fromDate =
+                (PersianDate) SharedPreferences.get("toDate");
+        PersianDate toDate;
+        fromDate = fromDate.plusDays(1);
+        toDate = fromDate.plusDays(6);
+        SharedPreferences.add("fromDate", fromDate);
+        SharedPreferences.add("toDate", toDate);
+        setFromToDateRange();
+        setupMealCalendar();
+    }
+
+    @FXML
+    private void previousWeekRange() {
+        PersianDate fromDate =
+                (PersianDate) SharedPreferences.get("fromDate");
+        PersianDate toDate;
+        toDate = fromDate.plusDays(-1);
+        fromDate = fromDate.plusDays(-7);
+        SharedPreferences.add("fromDate", fromDate);
+        SharedPreferences.add("toDate", toDate);
+        setFromToDateRange();
+        setupMealCalendar();
+    }
+
+    // End-------------- Meal > Meal Calendar -------------
+
     // Start------------ Kitchen > Add Kitchen -------------
 
     @FXML
@@ -672,11 +856,15 @@ public class Controller implements Initializable {
                 new TableColumn<>("Name");
         nameColumn.setCellValueFactory(
                 new PropertyValueFactory<>("name"));
+        nameColumn.setReorderable(false);
+        nameColumn.setSortable(false);
 
         TableColumn<Kitchen, Byte> kitchenTypeColumn =
                 new TableColumn<>("Type");
         kitchenTypeColumn.setCellValueFactory(
                 new PropertyValueFactory<>("kitchenType"));
+        kitchenTypeColumn.setReorderable(false);
+        kitchenTypeColumn.setSortable(false);
 
         kitchenModifyTableView.getColumns().addAll(
                 nameColumn, kitchenTypeColumn
@@ -974,9 +1162,9 @@ public class Controller implements Initializable {
     }
 
     private void setDayAndDate() {
-        PersianDate persianDate = PersianDate.now();
-        String dayAndDate = persianDate.getDayOfWeek() + " " +
-                persianDate.toString().replaceAll("-", "/");
+        PersianDate today = PersianDate.now();
+        String dayAndDate = today.getDayOfWeek() + " " +
+                today.toString().replaceAll("-", "/");
         date.setText(dayAndDate);
     }
 

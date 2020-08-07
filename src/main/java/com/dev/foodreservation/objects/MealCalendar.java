@@ -3,19 +3,24 @@ package com.dev.foodreservation.objects;
 import java.util.Date;
 
 public class MealCalendar {
-    private long id,
-                    mealId;
+    private int id,
+            mealId;
+    private String mealName;
     private byte mealType;
+    private int total;
     private Date date;
 
-    public MealCalendar(long id, long mealId, byte mealType, Date date) {
+    public MealCalendar(int id, int mealId, String mealName,
+                        byte mealType, int total, Date date) {
         this.id = id;
         this.mealId = mealId;
+        this.mealName = mealName;
         this.mealType = mealType;
+        this.total = total;
         this.date = date;
     }
 
-    public void setMealId(long mealId) {
+    public void setMealId(int mealId) {
         this.mealId = mealId;
     }
 
@@ -27,11 +32,11 @@ public class MealCalendar {
         this.date = date;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getMealId() {
+    public int getMealId() {
         return mealId;
     }
 
@@ -41,5 +46,33 @@ public class MealCalendar {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getMealName() {
+        return mealName;
+    }
+
+    public void setMealName(String mealName) {
+        this.mealName = mealName;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "MealCalendar{" +
+                "id=" + id +
+                ", mealId=" + mealId +
+                ", mealName='" + mealName + '\'' +
+                ", mealType=" + mealType +
+                ", total=" + total +
+                ", date=" + date +
+                '}';
     }
 }

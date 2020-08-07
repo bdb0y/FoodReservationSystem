@@ -31,10 +31,6 @@ public class Kitchen {
 
     @Override
     public String toString() {
-        return "Kitchen{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", kitchenType=" + kitchenType +
-                '}';
+        return this.name;
     }
 }
