@@ -4,7 +4,7 @@ import com.dev.foodreservation.objects.MealCalendar;
 import com.dev.foodreservation.objects.SetupMealCalendar;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface IntMealCalendar {
@@ -12,7 +12,7 @@ public interface IntMealCalendar {
     boolean addMeal(int mealId, int kitchenId, int total,
                     Date date, Date today) throws SQLException;
 
-    boolean updateMeal(int id, int mealId, int kitchenId, int total,
+    boolean updateMeal(int id, int mealId, int total,
                        Date date, Date today) throws SQLException;
 
     List<SetupMealCalendar> getMealCalendar(int kitchenId,

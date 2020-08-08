@@ -6,10 +6,7 @@ import com.dev.foodreservation.database.MealDAO;
 import com.dev.foodreservation.database.StudentDAO;
 import com.dev.foodreservation.database.utilities.FieldController;
 import com.dev.foodreservation.database.utilities.SharedPreferences;
-import com.dev.foodreservation.objects.Kitchen;
-import com.dev.foodreservation.objects.Meal;
-import com.dev.foodreservation.objects.SetupMealCalendar;
-import com.dev.foodreservation.objects.Student;
+import com.dev.foodreservation.objects.*;
 import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.*;
 import javafx.concurrent.Task;
@@ -20,9 +17,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.*;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -130,8 +130,10 @@ public class Controller implements Initializable {
     JFXButton mealCalendarTab;
     @FXML
     Label mealCalendarFromToDate;
-    @FXML JFXButton preButton;
-    @FXML JFXButton nextButton;
+    @FXML
+    JFXButton preButton;
+    @FXML
+    JFXButton nextButton;
     @FXML
     JFXComboBox mealCalendarKitchenFilter;
     @FXML
@@ -147,7 +149,7 @@ public class Controller implements Initializable {
     @FXML
     Label selectedKitchen;
     @FXML
-    JFXComboBox mealCalendarName;
+    JFXComboBox<Meal> mealCalendarName;
     @FXML
     JFXTextField mealCalendarTotal;
     @FXML
@@ -265,6 +267,7 @@ public class Controller implements Initializable {
         studentMenuSection.setStyle("-fx-background-color: white;" +
                 "-fx-text-fill: #0f4c75");
         sideMenuClickListeners();
+
         mealSectionClickListeners();
         kitchenSectionClickListeners();
         reportSectionClickListeners();
@@ -297,9 +300,9 @@ public class Controller implements Initializable {
             return t;
         });
 
-        mealCalendarKitchenFilterInjection();
         mealCalendarTableViewInitializer();
-        setupMealCalendar();
+        mealCalendarKitchenFilterInjection();
+        mealCalendarMealTypeFilterInjection();
     }
 
     // Start------------ Student > Add Student -------------
@@ -562,6 +565,7 @@ public class Controller implements Initializable {
         System.out.println(changeMealFields());
     }
 
+
     private Meal changeMealFields() {
         Meal meal =
                 (Meal) SharedPreferences
@@ -692,11 +696,33 @@ public class Controller implements Initializable {
                     .setText(String.valueOf(mealCalendarKitchenFilter
                             .getSelectionModel()
                             .getSelectedItem().toString()));
+            setupMealCalendar();
         });
         exec.execute(task);
     }
 
+    private void mealCalendarMealTypeFilterInjection() {
+        addComboItems(mealCalendarMealType,
+                "Breakfast", "Launch", "Dinner");
+        mealCalendarMealType.getSelectionModel().select(0);
+    }
+
     @FXML
+    private void setMealCalendarMealType() {
+        switch (mealCalendarMealType.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                selectedMealType.setText("BREAKFAST");
+                break;
+            case 1:
+                selectedMealType.setText("LAUNCH");
+                break;
+            case 2:
+                selectedMealType.setText("DINNER");
+                break;
+        }
+        setMealNameMealCalendar();
+    }
+
     private void setupMealCalendar() {
         mealCalendarTableView.getItems().clear();
         preButton.setDisable(true);
@@ -723,7 +749,7 @@ public class Controller implements Initializable {
             List<SetupMealCalendar> taskCalendar = task.getValue();
             mealCalendarTableView
                     .getItems().addAll(taskCalendar);
-            System.out.println(taskCalendar);
+            setMealCalendarMealType();
             preButton.setDisable(false);
             nextButton.setDisable(false);
         });
@@ -754,6 +780,163 @@ public class Controller implements Initializable {
         SharedPreferences.add("toDate", toDate);
         setFromToDateRange();
         setupMealCalendar();
+    }
+
+    @FXML
+    private void onMealCalendarTableView() {
+        SetupMealCalendar setupMealCalendar =
+                (SetupMealCalendar) mealCalendarTableView.getSelectionModel()
+                        .getSelectedItem();
+        if (setupMealCalendar != null) {
+            setSelectedMealCalendarDateInfo(setupMealCalendar.getDay(),
+                    setupMealCalendar.getDate());
+            selectMeal(setupMealCalendar);
+        }
+    }
+
+    private void selectMeal(SetupMealCalendar setupMealCalendar) {
+        int selectedType = mealCalendarMealType
+                .getSelectionModel().getSelectedIndex();
+        int id = -1;
+        int total = 0;
+        switch (selectedType) {
+            case 0:
+                id = setupMealCalendar.getBmId();
+                total = setupMealCalendar.getTotalBF();
+                break;
+            case 1:
+                id = setupMealCalendar.getLmId();
+                total = setupMealCalendar.getTotalL();
+                break;
+            case 2:
+                id = setupMealCalendar.getDmId();
+                total = setupMealCalendar.getTotalD();
+                break;
+        }
+        List<Meal> meals =
+                mealCalendarName.getItems();
+        Meal theOne = null;
+        for (Meal m : meals)
+            if (m.getId() == id)
+                theOne = m;
+        if (theOne == null) {
+            mealCalendarName.getSelectionModel()
+                    .clearSelection();
+            mealCalendarTotal.clear();
+        } else {
+            mealCalendarName.getSelectionModel().select(theOne);
+            mealCalendarTotal.setText(String.valueOf(total));
+        }
+    }
+
+    @FXML
+    private void onSaveMealCalendar() {
+        SetupMealCalendar setupMealCalendar =
+                (SetupMealCalendar) mealCalendarTableView
+                        .getSelectionModel().getSelectedItem();
+        if (setupMealCalendar != null) {
+            int selectedMealType =
+                    mealCalendarMealType.getSelectionModel()
+                            .getSelectedIndex();
+            int mealCalendarId = -1;
+            switch (selectedMealType) {
+                case 0:
+                    mealCalendarId = setupMealCalendar.getBreakfastMealId();
+                    break;
+                case 1:
+                    mealCalendarId = setupMealCalendar.getLaunchMealId();
+                    break;
+                case 2:
+                    mealCalendarId = setupMealCalendar.getDinnerMealId();
+                    break;
+            }
+            int newMealId =
+                    mealCalendarName.getSelectionModel()
+                            .getSelectedItem().getId();
+            int total = 0;
+            int kitchenId = setupMealCalendar.getKitchenId();
+            Date date = setupMealCalendar.getDate();
+            try {
+                total = (int) getFieldValue(mealCalendarTotal,
+                        FieldController.INTEGER);
+                int finalMealCalendarId = mealCalendarId;
+                int finalTotal = total;
+                int finalMealCalendarId1 = mealCalendarId;
+                Task<Boolean> task = new Task<>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        if(finalMealCalendarId1 != -1) {
+                            return new MealCalendarDAO().updateMeal(
+                                    finalMealCalendarId,
+                                    newMealId,
+                                    finalTotal,
+                                    date,
+                                    Date.valueOf(PersianDate.now().toString())
+                            );
+                        }else {
+                            return new MealCalendarDAO().addMeal(
+                                    newMealId,
+                                    kitchenId,
+                                    finalTotal,
+                                    date,
+                                    Date.valueOf(PersianDate.now().toString())
+                            );
+                        }
+                    }
+                };
+
+                task.setOnFailed(e -> {
+                    task.getException().printStackTrace();
+                });
+                task.setOnSucceeded(e -> {
+                    System.out.println("successfull!");
+                    setupMealCalendar();
+                });
+                exec.execute(task);
+            } catch (Exception e) {
+                System.out.println("Enter valid number");
+            }
+        }
+    }
+
+    private void setSelectedMealCalendarDateInfo(String day, Date date) {
+        selectedDay.setText(day);
+        selectedDate.setText(date
+                .toString().replaceAll("-", "/"));
+    }
+
+    private void setMealNameMealCalendar() {
+        mealCalendarName.getItems().clear();
+        Task<List<Meal>> task = new Task<>() {
+            @Override
+            public List<Meal> call() throws Exception {
+                int selectedType =
+                        mealCalendarMealType
+                                .getSelectionModel().getSelectedIndex();
+                return new MealDAO().typeGet(selectedType);
+            }
+        };
+
+        task.setOnFailed(e -> {
+            task.getException().printStackTrace();
+        });
+        task.setOnSucceeded(e -> {
+            List<Meal> taskMeal = task.getValue();
+            mealCalendarName
+                    .getItems().addAll(taskMeal);
+            if (mealCalendarTableView.getSelectionModel()
+                    .getSelectedItem() == null)
+                mealCalendarTableView.getSelectionModel()
+                        .select(0);
+            onMealCalendarTableView();
+            if (mealCalendarTableView.getSelectionModel()
+                    .getSelectedItem() != null)
+                selectMeal(
+                        (SetupMealCalendar) mealCalendarTableView
+                                .getSelectionModel().getSelectedItem()
+                );
+        });
+        exec.execute(task);
     }
 
     // End-------------- Meal > Meal Calendar -------------

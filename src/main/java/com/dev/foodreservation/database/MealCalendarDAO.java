@@ -1,6 +1,7 @@
 package com.dev.foodreservation.database;
 
 import com.dev.foodreservation.database.interfaces.IntMealCalendar;
+import com.dev.foodreservation.database.utilities.DateToPersianDate;
 import com.dev.foodreservation.database.utilities.Executor;
 import com.dev.foodreservation.database.utilities.Procedure;
 import com.dev.foodreservation.objects.MealCalendar;
@@ -12,7 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
 public class MealCalendarDAO implements IntMealCalendar {
@@ -33,22 +35,20 @@ public class MealCalendarDAO implements IntMealCalendar {
         procedure.addField("mi", mealId);
         procedure.addField("ki", kitchenId);
         procedure.addField("t", total);
-        procedure.addField("d", date);
-        procedure.addField("td", today);
+        procedure.addField("d", "'" + date + "'");
+        procedure.addField("td", "'" + today + "'");
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
-    public boolean updateMeal(int mealCalendarId, int mealId,
-                              int kitchenId, int total, Date date,
+    public boolean updateMeal(int mealCalendarId, int mealId, int total, Date date,
                               Date today) throws SQLException {
         Procedure procedure = new Procedure("UpdateMealCalendar");
         procedure.addField("i", mealCalendarId);
         procedure.addField("mi", mealId);
-        procedure.addField("ki", kitchenId);
         procedure.addField("t", total);
-        procedure.addField("d", date);
-        procedure.addField("td", today);
+        procedure.addField("d", "'" + date + "'");
+        procedure.addField("td", "'" + today + "'");
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
@@ -69,6 +69,28 @@ public class MealCalendarDAO implements IntMealCalendar {
             setupMealCalendar.setKitchenId(kitchenId);
             setupMealCalendarList.add(setupMealCalendar);
         }
+
+        PersianDate fromDate =
+                new DateToPersianDate().get(from);
+        PersianDate toDate =
+                new DateToPersianDate().get(to);
+        while (fromDate.compareTo(toDate) <= 0) {
+            boolean exists = false;
+            for (SetupMealCalendar smc : setupMealCalendarList) {
+                if (smc.getDate().toString().equals(fromDate.toString()))
+                    exists = true;
+            }
+            if (!exists) {
+                setupMealCalendarList.add(new SetupMealCalendar(
+                        Date.valueOf(fromDate.toString()),
+                        kitchenId
+                ));
+            }
+
+            fromDate = fromDate.plusDays(1);
+        }
+        setupMealCalendarList
+                .sort(Comparator.comparing(SetupMealCalendar::getDate));
         return setupMealCalendarList;
     }
 
@@ -78,12 +100,15 @@ public class MealCalendarDAO implements IntMealCalendar {
                 resultSet.getInt(2),
                 resultSet.getInt(3),
                 resultSet.getInt(4),
-                resultSet.getString(5),
-                resultSet.getInt(6),
-                resultSet.getString(7),
+                resultSet.getInt(5),
+                resultSet.getString(6),
+                resultSet.getInt(7),
                 resultSet.getInt(8),
                 resultSet.getString(9),
-                resultSet.getInt(10)
+                resultSet.getInt(10),
+                resultSet.getInt(11),
+                resultSet.getString(12),
+                resultSet.getInt(13)
         );
     }
 }

@@ -18,6 +18,12 @@ public class Meal {
         this.price = price;
     }
 
+    public Meal(int id, byte type, String name) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+    }
+
     public void setType(byte type) {
         this.type = type;
     }
@@ -46,19 +52,14 @@ public class Meal {
         return price;
     }
 
-    public boolean differs(Meal meal){
+    public boolean differs(Meal meal) {
         return (!this.name.equals(meal.getName())
-                    || this.type != meal.getType()
-                        || this.price != meal.price);
+                || this.type != meal.getType()
+                || this.price != meal.price);
     }
 
     @Override
     public String toString() {
-        return "Meal{" +
-                "id=" + id +
-                ", type=" + type +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
+        return this.name;
     }
 }

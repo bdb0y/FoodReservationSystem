@@ -2,16 +2,91 @@ package com.dev.foodreservation.objects;
 
 import com.dev.foodreservation.database.utilities.DateToPersianDate;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class SetupMealCalendar {
     Date date;
     String day;
     String breakfastName, launchName, dinnerName;
     int kitchenId;
-    int breakfastMealId, totalBF,
-            launchMealId, totalL,
-            dinnerMealId, totalD;
+    int bmId, breakfastMealId, totalBF,
+            lmId, launchMealId, totalL,
+            dmId, dinnerMealId, totalD;
+
+    public SetupMealCalendar(Date date, int kitchenId) {
+        this.date = date;
+        this.kitchenId = kitchenId;
+        this.day = new DateToPersianDate().get(date)
+                .getDayOfWeek().toString();
+        this.breakfastName = "-";
+        this.breakfastMealId = -1;
+        this.bmId = -1;
+        this.launchName = "-";
+        this.launchMealId = -1;
+        this.lmId = -1;
+        this.dinnerName = "-";
+        this.dinnerMealId = -1;
+        this.dmId = -1;
+    }
+
+
+    public SetupMealCalendar(Date date,
+                             int breakfastMealId,
+                             int launchMealId,
+                             int dinnerMealId,
+                             int bmId,
+                             String breakfastName,
+                             int totalBF,
+                             int lmId,
+                             String launchName,
+                             int totalL,
+                             int dmId,
+                             String dinnerName,
+                             int totalD) {
+        this.date = date;
+        this.day = new DateToPersianDate().get(date)
+                .getDayOfWeek().toString();
+        this.breakfastName = breakfastName;
+        this.bmId = bmId;
+        this.breakfastMealId = breakfastMealId;
+        this.totalBF = totalBF;
+        this.launchName = launchName;
+        this.lmId = lmId;
+        this.launchMealId = launchMealId;
+        this.totalL = totalL;
+        this.dinnerName = dinnerName;
+        this.dmId = dmId;
+        this.dinnerMealId = dinnerMealId;
+        this.totalD = totalD;
+
+        if (breakfastName == null) {
+            this.breakfastName = "-";
+            this.bmId = -1;
+            this.breakfastMealId = -1;
+        }
+        if (launchName == null) {
+            this.launchName = "-";
+            this.lmId = -1;
+            this.launchMealId = -1;
+        }
+        if (dinnerName == null) {
+            this.dinnerName = "-";
+            this.dinnerMealId = -1;
+            this.dmId = -1;
+        }
+    }
+
+    public int getBmId() {
+        return bmId;
+    }
+
+    public int getLmId() {
+        return lmId;
+    }
+
+    public int getDmId() {
+        return dmId;
+    }
 
     public String getBreakfastName() {
         return breakfastName;
@@ -23,37 +98,6 @@ public class SetupMealCalendar {
 
     public String getDinnerName() {
         return dinnerName;
-    }
-
-    public SetupMealCalendar(Date date,
-                             int breakfastMealId,
-                             int launchMealId,
-                             int dinnerMealId,
-                             String breakfastName,
-                             int totalBF,
-                             String launchName,
-                             int totalL,
-                             String dinnerName,
-                             int totalD) {
-        this.date = date;
-        this.day = new DateToPersianDate().get(date)
-                .getDayOfWeek().toString();
-        if (breakfastName == null)
-            breakfastName = "-";
-        if (launchName == null)
-            launchName = "-";
-        if (dinnerName == null)
-            dinnerName = "-";
-
-        this.breakfastName = breakfastName;
-        this.breakfastMealId = breakfastMealId;
-        this.totalBF = totalBF;
-        this.launchName = launchName;
-        this.launchMealId = launchMealId;
-        this.totalL = totalL;
-        this.dinnerName = dinnerName;
-        this.dinnerMealId = dinnerMealId;
-        this.totalD = totalD;
     }
 
     public void setKitchenId(int kitchenId) {
