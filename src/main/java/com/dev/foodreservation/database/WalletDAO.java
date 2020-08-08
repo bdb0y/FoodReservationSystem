@@ -45,8 +45,8 @@ public class WalletDAO implements IntWallet {
     public boolean makeTransaction(long id, double amount) throws SQLException {
         Procedure procedure = new Procedure("MakeTransaction");
         procedure.addField("rii", id);
-        procedure.addField("t", time);
-        procedure.addField("d", date);
+        procedure.addField("t", "'" + time + "'");
+        procedure.addField("d", "'" + date + "'");
         procedure.addField("a", amount);
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }

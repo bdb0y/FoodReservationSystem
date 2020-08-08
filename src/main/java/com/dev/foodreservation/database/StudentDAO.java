@@ -90,6 +90,16 @@ public class StudentDAO implements IntStudent {
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
+    @Override
+    public boolean changePassword(long id, String currentPass,
+                                  String newPass) throws SQLException {
+        Procedure procedure = new Procedure("UpdatePassword");
+        procedure.addField("id", id);
+        procedure.addField("pp", "'" + currentPass + "'");
+        procedure.addField("np", "'" + newPass + "'");
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
+    }
+
     private Student studentRSV(ResultSet set) throws SQLException {
         return new Student(
                 set.getLong(1),

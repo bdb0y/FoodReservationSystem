@@ -16,4 +16,6 @@ public interface IntStudent {
     boolean updateNameSex(Student student) throws SQLException;
     boolean updateStudentMealLimit(long id, byte limit) throws SQLException;
     boolean delete(long id) throws SQLException;
+    boolean changePassword(long id, String currentPass,
+                           String newPass) throws SQLException;
 }

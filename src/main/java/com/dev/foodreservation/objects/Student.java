@@ -6,15 +6,17 @@ public class Student {
     public static final int FEMALE = 1;
     public static String S_MALE = "Man";
     public static String S_FEMALE = "Woman";
+    public static String SS_MALE = "Male";
+    public static String SS_FEMALE = "Female";
 
     public final static String STUDENT_TABLE = "MealAutomation.dbo.Student";
 
     private long rollId,
-                 id;
+            id;
     private String firstName,
-                    lastName;
+            lastName;
     private byte gender,
-                    mealLimit;
+            mealLimit;
 
     public Student(long rI, long id, String fn, String ln, byte g, byte ml) {
         this.rollId = rI;
@@ -65,11 +67,16 @@ public class Student {
         return mealLimit;
     }
 
-    public boolean differs(Student student){
+    public boolean differs(Student student) {
         return !this.firstName.equals(student.firstName)
                 || !this.lastName.equals(student.lastName)
                 || this.gender != student.getGender()
                 || this.mealLimit != student.getMealLimit();
+    }
+
+    public String getGenderString() {
+        if (this.gender == 0) return SS_MALE;
+        return SS_FEMALE;
     }
 
     @Override
