@@ -4,6 +4,7 @@ import com.dev.foodreservation.database.interfaces.IntMeal;
 import com.dev.foodreservation.database.utilities.Executor;
 import com.dev.foodreservation.database.utilities.Procedure;
 import com.dev.foodreservation.objects.Meal;
+import com.dev.foodreservation.objects.MealReservation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,21 +50,38 @@ public class MealDAO implements IntMeal {
     }
 
     @Override
-    public boolean reserve(long studentId, int mealCalendarId, int kitchenId,
+    public boolean reserve(long studentId, int mealCalendarId,
                            Date date, Time time) throws SQLException {
         Procedure procedure = new Procedure("ReserveMeal");
         procedure.addField("sri", studentId);
         procedure.addField("mci", mealCalendarId);
-        procedure.addField("ki", kitchenId);
-        procedure.addField("dd", date);
-        procedure.addField("tt", time);
+        procedure.addField("td", "'" + date + "'");
+        procedure.addField("tt", "'" + time + "'");
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
     @Override
-    public boolean cancel(int mealReservationId) throws SQLException {
+    public List<MealReservation> checkIfReserved(long studentId,
+                                                 int mealCalendarId)
+            throws SQLException {
+        Procedure procedure = new Procedure("CheckIfReserved");
+        procedure.addField("ri", studentId);
+        procedure.addField("mci", mealCalendarId);
+        List<MealReservation> mealReservations =
+                new ArrayList<>();
+        ResultSet resultSet = new Executor(statement)
+                .Execute(procedure);
+        while (resultSet.next()) mealReservations
+                .add(MealReservationRSV(resultSet));
+        return mealReservations;
+    }
+
+    @Override
+    public boolean cancel(int mealReservationId, Date date, Time time) throws SQLException {
         Procedure procedure = new Procedure("cancelReservedMeal");
         procedure.addField("mri", mealReservationId);
+        procedure.addField("d", "'" + date + "'");
+        procedure.addField("t", "'" + time + "'");
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
     }
 
@@ -87,7 +105,7 @@ public class MealDAO implements IntMeal {
         ResultSet resultSet = new Executor(statement).Execute(procedure);
 
         while (resultSet.next()) meals.add(MealRSV(resultSet));
-        return null;
+        return meals;
     }
 
     @Override
@@ -118,6 +136,12 @@ public class MealDAO implements IntMeal {
                 set.getByte(3),
                 set.getString(2),
                 set.getDouble(4)
+        );
+    }
+
+    private MealReservation MealReservationRSV(ResultSet resultSet) throws SQLException {
+        return new MealReservation(
+                resultSet.getInt(1)
         );
     }
 }

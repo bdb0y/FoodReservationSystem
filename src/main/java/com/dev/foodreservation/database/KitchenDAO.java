@@ -48,6 +48,18 @@ public class KitchenDAO implements IntKitchen {
     }
 
     @Override
+    public boolean addStudentKitchen(long studentRollId, int... kitchenId) throws SQLException {
+        Procedure procedure =
+                new Procedure("InsertStudentKitchen");
+        procedure.addField("sri", studentRollId);
+        for(int ki : kitchenId){
+            procedure.addField("ki", ki);
+            new Executor(statement).ExecuteUpdate(procedure);
+        }
+        return true;
+    }
+
+    @Override
     public List<Kitchen> idGet(int id) throws SQLException {
         Procedure procedure = new Procedure("GetKitchen");
         procedure.addField("id", id);

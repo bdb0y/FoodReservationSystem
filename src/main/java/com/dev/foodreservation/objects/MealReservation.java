@@ -4,15 +4,20 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class MealReservation {
-    private long    id,
-                    studentRollId,
-                    mealCalendarId,
-                    kitchenId;
+    private int id;
+    private long
+            studentRollId,
+            mealCalendarId,
+            kitchenId;
     private Date date;
     private Timestamp timestamp;
     private boolean valid;
 
-    public MealReservation(long id, long studentRollId, long mealCalendarId, long kitchenId, Date date, Timestamp timestamp, boolean valid) {
+    public MealReservation(int id){
+        this.id = id;
+    }
+
+    public MealReservation(int id, long studentRollId, long mealCalendarId, long kitchenId, Date date, Timestamp timestamp, boolean valid) {
         this.id = id;
         this.studentRollId = studentRollId;
         this.mealCalendarId = mealCalendarId;
@@ -34,7 +39,7 @@ public class MealReservation {
         this.valid = valid;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

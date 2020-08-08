@@ -13,6 +13,10 @@ public interface IntKitchen {
 
     int update(Kitchen kitchen) throws SQLException;
 
+    boolean addStudentKitchen(long studentRollId,
+                              int... kitchenId)
+        throws SQLException;
+
     List<Kitchen> idGet(int id) throws SQLException;
     List<Kitchen> nameGet(String name) throws SQLException;
     List<Kitchen> typeGet(int type) throws SQLException;

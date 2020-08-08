@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -92,6 +93,12 @@ public class StudentController implements Initializable {
     Label selectedKitchen;
     @FXML
     JFXComboBox<Meal> mealCalendarName;
+    @FXML
+    Label reservationStatus;
+    @FXML
+    JFXButton reserveButton;
+    @FXML
+    JFXButton cancelButton;
 
     private SelectionModel<Tab> mainTabSelection;
     private SelectionModel<Tab> walletTabSelection;
@@ -99,14 +106,20 @@ public class StudentController implements Initializable {
 
     private ExecutorService exec;
 
+    private Time time;
+    private Date date;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mainTabSelection = mainTabPane.getSelectionModel();
         walletTabSelection = walletTabPane.getSelectionModel();
         accountTabSelection = accountTabPane.getSelectionModel();
 
+        time = Time.valueOf(LocalTime.now());
+        date = Date.valueOf(PersianDate.now().toString());
 
-        SharedPreferences.add("loggedInStudent", (long) 96112);
+        SharedPreferences.add("loggedInStudent", (long) 963111213);
 
         exec = Executors.newCachedThreadPool((runnable) -> {
             Thread t = new Thread(runnable);
@@ -246,7 +259,6 @@ public class StudentController implements Initializable {
             setSelectedMealCalendarDateInfo(setupMealCalendar.getDay(),
                     setupMealCalendar.getDate());
             selectMeal(setupMealCalendar);
-            
         }
     }
 
@@ -309,18 +321,22 @@ public class StudentController implements Initializable {
         int selectedType = mealCalendarMealType
                 .getSelectionModel().getSelectedIndex();
         int id = -1;
+        int mealCalendarId = -1;
         int total = 0;
         switch (selectedType) {
             case 0:
                 id = setupMealCalendar.getBmId();
+                mealCalendarId = setupMealCalendar.getBreakfastMealId();
                 total = setupMealCalendar.getTotalBF();
                 break;
             case 1:
                 id = setupMealCalendar.getLmId();
+                mealCalendarId = setupMealCalendar.getLaunchMealId();
                 total = setupMealCalendar.getTotalL();
                 break;
             case 2:
                 id = setupMealCalendar.getDmId();
+                mealCalendarId = setupMealCalendar.getDinnerMealId();
                 total = setupMealCalendar.getTotalD();
                 break;
         }
@@ -333,8 +349,52 @@ public class StudentController implements Initializable {
         if (theOne == null) {
             mealCalendarName.getSelectionModel()
                     .clearSelection();
+            reservationStatus.setText("-");
+            reserveButton.setDisable(true);
+            cancelButton.setDisable(true);
         } else {
             mealCalendarName.getSelectionModel().select(theOne);
+            SharedPreferences.add("mealCalendarId",
+                    mealCalendarId);
+            checkIfMealReserved(mealCalendarId);
+        }
+    }
+
+    private void checkIfMealReserved(int id) {
+        System.out.println(id);
+        System.out.println(SharedPreferences.get("loggedInStudent"));
+
+        try {
+            Task<List<MealReservation>> task = new Task<>() {
+                @Override
+                public List<MealReservation> call() throws Exception {
+                    return new MealDAO().checkIfReserved(
+                            (long) SharedPreferences.get("loggedInStudent"),
+                            id
+                    );
+                }
+            };
+
+            task.setOnFailed(e -> {
+                task.getException().printStackTrace();
+            });
+            task.setOnSucceeded(e -> {
+                List<MealReservation> taskMeal = task.getValue();
+                if (taskMeal.size() > 0) {
+                    SharedPreferences.add("mealReservationId",
+                            taskMeal.get(0).getId());
+                    reservationStatus.setText("RESERVED");
+                    reserveButton.setDisable(true);
+                    cancelButton.setDisable(false);
+                } else {
+                    reservationStatus.setText("NOT RESERVED");
+                    cancelButton.setDisable(true);
+                    reserveButton.setDisable(false);
+                }
+            });
+            exec.execute(task);
+        } catch (Exception e) {
+
         }
     }
 
@@ -374,6 +434,62 @@ public class StudentController implements Initializable {
                         (SetupMealCalendar) mealCalendarTableView
                                 .getSelectionModel().getSelectedItem()
                 );
+        });
+        exec.execute(task);
+    }
+
+    @FXML
+    private void onReserveButton() {
+        time = Time.valueOf(LocalTime.now());
+        System.out.println(
+                SharedPreferences.get("mealCalendarId")
+        );
+        try {
+            Task<Boolean> task = new Task<>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return new MealDAO().reserve(
+                            (long) SharedPreferences.get("loggedInStudent"),
+                            (int) SharedPreferences.get("mealCalendarId"),
+                            date,
+                            time
+                    );
+                }
+            };
+
+            task.setOnFailed(e -> task.getException().printStackTrace());
+            task.setOnSucceeded(e -> {
+                Boolean taskStudent = task.getValue();
+                if (taskStudent) System.out.println("reserved");
+                else System.out.println("something went wrong");
+                setupMealCalendar();
+            });
+            exec.execute(task);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onCancelButton() {
+        time = Time.valueOf(LocalTime.now());
+        Task<Boolean> task = new Task<>() {
+            @Override
+            public Boolean call() throws Exception {
+                return new MealDAO().cancel(
+                        (int) SharedPreferences.get("mealReservationId"),
+                        date,
+                        time
+                );
+            }
+        };
+
+        task.setOnFailed(e -> task.getException().printStackTrace());
+        task.setOnSucceeded(e -> {
+            Boolean taskStudent = task.getValue();
+            if (taskStudent) System.out.println("canceled");
+            else System.out.println("something went wrong");
+            setupMealCalendar();
         });
         exec.execute(task);
     }
