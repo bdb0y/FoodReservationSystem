@@ -153,7 +153,7 @@ public class LoginController implements Initializable {
     }
 
     private void adminStage() throws IOException {
-        URL url = new File("src/main/java/sample/login.fxml").toURI().toURL();
+        URL url = new File("src/main/java/sample/admin.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         stage.setTitle("Hello World");

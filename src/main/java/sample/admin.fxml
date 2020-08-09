@@ -831,53 +831,6 @@
                                           </AnchorPane>
                                        </content>
                                     </Tab>
-                                    <Tab style="visibility: hidden;" text="Untitled Tab 1">
-                                       <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <VBox layoutX="300.0" layoutY="154.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <children>
-                                                      <HBox alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="35.0" spacing="10.0">
-                                                         <children>
-                                                            <Label maxWidth="1.7976931348623157E308" text="Transaction type" textFill="#0f4c75" HBox.hgrow="ALWAYS">
-                                                               <font>
-                                                                  <Font size="16.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <JFXComboBox focusColor="#0f4c75" labelFloat="true" promptText="Filter" unFocusColor="#0f4c75" HBox.hgrow="ALWAYS" />
-                                                            <JFXButton prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Get" textFill="WHITE" />
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets bottom="10.0" />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                      <TableView />
-                                                      <HBox alignment="CENTER" spacing="10.0">
-                                                         <children>
-                                                            <Label maxWidth="1.7976931348623157E308" text="Total:" textFill="#0f4c75" HBox.hgrow="ALWAYS">
-                                                               <font>
-                                                                  <Font size="15.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="-" HBox.hgrow="ALWAYS">
-                                                               <font>
-                                                                  <Font name="System Bold" size="14.0" />
-                                                               </font>
-                                                            </Label>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets bottom="10.0" />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets top="25.0" />
-                                                   </padding>
-                                                </VBox>
-                                             </children>
-                                          </AnchorPane>
-                                       </content>
-                                    </Tab>
                                 </tabs>
                               </TabPane>
                               <HBox layoutX="229.0" layoutY="14.0" prefHeight="33.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -885,7 +838,6 @@
                                     <JFXButton fx:id="studentReportTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="STUDENT" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                     <JFXButton fx:id="mealReportTab" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="MEAL" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                     <JFXButton fx:id="kitchenReportTab" layoutX="657.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="KITCHEN" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                                    <JFXButton fx:id="transactionReportTab" layoutX="474.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0f4c75;" text="TRANSACTIONS" textFill="WHITE" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>

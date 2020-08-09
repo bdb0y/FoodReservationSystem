@@ -217,8 +217,6 @@ public class AdminController implements Initializable {
     @FXML
     Label kitchenReportTotal;
     @FXML
-    JFXButton transactionReportTab;
-    @FXML
     private Label sectionTitle;
     @FXML
     JFXButton logoutButton;
@@ -933,51 +931,60 @@ public class AdminController implements Initializable {
                     mealCalendarId = setupMealCalendar.getDinnerMealId();
                     break;
             }
-            int newMealId =
-                    mealCalendarName.getSelectionModel()
-                            .getSelectedItem().getId();
-            int total = 0;
-            int kitchenId = setupMealCalendar.getKitchenId();
-            Date date = setupMealCalendar.getDate();
-            try {
-                total = (int) getFieldValue(mealCalendarTotal,
-                        FieldController.INTEGER);
-                int finalMealCalendarId = mealCalendarId;
-                int finalTotal = total;
-                int finalMealCalendarId1 = mealCalendarId;
-                Task<Boolean> task = new Task<>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        if (finalMealCalendarId1 != -1) {
-                            return new MealCalendarDAO().updateMeal(
-                                    finalMealCalendarId,
-                                    newMealId,
-                                    finalTotal,
-                                    date,
-                                    Date.valueOf(PersianDate.now().toString())
-                            );
-                        } else {
-                            return new MealCalendarDAO().addMeal(
-                                    newMealId,
-                                    kitchenId,
-                                    finalTotal,
-                                    date,
-                                    Date.valueOf(PersianDate.now().toString())
-                            );
+            if (mealCalendarName.getSelectionModel()
+                    .getSelectedItem() != null) {
+                int newMealId =
+                        mealCalendarName.getSelectionModel()
+                                .getSelectedItem().getId();
+                int total = 0;
+                int kitchenId = setupMealCalendar.getKitchenId();
+                Date date = setupMealCalendar.getDate();
+                try {
+                    total = (int) getFieldValue(mealCalendarTotal,
+                            FieldController.INTEGER);
+                    int finalMealCalendarId = mealCalendarId;
+                    int finalTotal = total;
+                    int finalMealCalendarId1 = mealCalendarId;
+                    Task<Boolean> task = new Task<>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            if (finalMealCalendarId1 != -1) {
+                                return new MealCalendarDAO().updateMeal(
+                                        finalMealCalendarId,
+                                        newMealId,
+                                        finalTotal,
+                                        date,
+                                        Date.valueOf(PersianDate.now().toString())
+                                );
+                            } else {
+                                return new MealCalendarDAO().addMeal(
+                                        newMealId,
+                                        kitchenId,
+                                        finalTotal,
+                                        date,
+                                        Date.valueOf(PersianDate.now().toString())
+                                );
+                            }
                         }
-                    }
-                };
+                    };
 
-                task.setOnFailed(e -> {
-                    task.getException().printStackTrace();
-                });
-                task.setOnSucceeded(e -> {
-                    System.out.println("successfull!");
-                    setupMealCalendar();
-                });
-                exec.execute(task);
-            } catch (Exception e) {
-                System.out.println("Enter valid number");
+                    task.setOnFailed(e -> {
+                        task.getException().printStackTrace();
+                    });
+                    task.setOnSucceeded(e -> {
+                        Boolean taskValue = task.getValue();
+                        if (taskValue) {
+                            new AlertHandler(Alert.AlertType.NONE,
+                                    "Done");
+                            setupMealCalendar();
+                        } else new AlertHandler(Alert.AlertType.ERROR,
+                                "Wrong date");
+                    });
+                    exec.execute(task);
+                } catch (Exception e) {
+                    new AlertHandler(Alert.AlertType.ERROR,
+                            "Invalid number!");
+                }
             }
         }
     }
@@ -1242,11 +1249,11 @@ public class AdminController implements Initializable {
 
     private void reportFilterInjection() {
         addComboItems(studentReportFilter,
-                "Male", "Female", "Male-Female");
+                "Male", "Female", "All");
         addComboItems(mealReportFilter,
                 "Breakfast", "Launch", "Dinner", "All");
         addComboItems(kitchenReportFilter,
-                "Men", "Women", "Men-Women");
+                "Men", "Women", "Men-Women", "All");
     }
 
     // End-------------- Report > Student -------------
@@ -1309,7 +1316,7 @@ public class AdminController implements Initializable {
                 .clear();
         int filter = kitchenReportFilter
                 .getSelectionModel().getSelectedIndex();
-        if (filter == 2) filter = -1;
+        if (filter == 3) filter = -1;
         try {
             int finalFilter = filter;
             Task<List<Kitchen>> task = new Task<>() {
@@ -1360,7 +1367,7 @@ public class AdminController implements Initializable {
     }
 
     private void loginStage() throws IOException {
-        URL url = new File("src/main/java/sample/admin.fxml").toURI().toURL();
+        URL url = new File("src/main/java/sample/login.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         stage.setTitle("Hello World");
@@ -1418,9 +1425,6 @@ public class AdminController implements Initializable {
 
         kitchenReportTab.setOnMouseClicked(event ->
                 reportTabSelection.select(2));
-
-        transactionReportTab.setOnMouseClicked(event ->
-                reportTabSelection.select(3));
     }
 
     private void kitchenSectionClickListeners() {
