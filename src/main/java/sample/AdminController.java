@@ -12,12 +12,22 @@ import com.dev.foodreservation.objects.*;
 import com.github.mfathi91.time.PersianDate;
 import com.jfoenix.controls.*;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -29,7 +39,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class Controller implements Initializable {
+public class AdminController implements Initializable {
 
 
     @FXML
@@ -214,6 +224,8 @@ public class Controller implements Initializable {
     JFXButton transactionReportTab;
     @FXML
     private Label sectionTitle;
+    @FXML
+    JFXButton logoutButton;
 
 
     private int mainSelectedTab = 0;
@@ -229,6 +241,8 @@ public class Controller implements Initializable {
     private TableView.TableViewSelectionModel<TableView> studentModifyTableViewSelection;
 
     private ExecutorService exec;
+    private double xOffset;
+    private double yOffset;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -1324,6 +1338,48 @@ public class Controller implements Initializable {
     }
 
     // End-------------- Report > Kitchen -------------
+
+    @FXML
+    private void onLogout() {
+        try {
+            Stage currentStage =
+                    (Stage) sectionTitle.getScene()
+                            .getWindow();
+            currentStage.close();
+            loginStage();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    private void loginStage() throws IOException {
+        URL url = new File("src/main/java/sample/admin.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Stage stage = new Stage();
+        stage.setTitle("Hello World");
+        stage.initStyle(StageStyle.TRANSPARENT);
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
+    }
 
     private void showAlert(boolean isGood) {
         if (!isGood) {

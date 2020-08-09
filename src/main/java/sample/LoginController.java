@@ -2,8 +2,11 @@ package sample;
 
 import com.dev.foodreservation.database.LoginHandler;
 import com.dev.foodreservation.database.utilities.FieldController;
-import com.dev.foodreservation.objects.Kitchen;
-import com.jfoenix.controls.*;
+import com.dev.foodreservation.database.utilities.SharedPreferences;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,9 +23,7 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -72,6 +73,7 @@ public class LoginController implements Initializable {
                     Boolean taskValue = task.getValue();
                     if (taskValue) {
                         try {
+                            SharedPreferences.add("loggedInStudent", user);
                             Stage currentStage =
                                     (Stage) loginButton.getScene()
                                             .getWindow();
@@ -151,7 +153,7 @@ public class LoginController implements Initializable {
     }
 
     private void adminStage() throws IOException {
-        URL url = new File("src/main/java/sample/yes.fxml").toURI().toURL();
+        URL url = new File("src/main/java/sample/login.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         stage.setTitle("Hello World");

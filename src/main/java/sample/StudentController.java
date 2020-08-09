@@ -13,12 +13,21 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
@@ -100,6 +109,13 @@ public class StudentController implements Initializable {
     @FXML
     JFXButton cancelButton;
 
+    @FXML
+    JFXButton logoutButton;
+    @FXML
+    Label dateInfo;
+    @FXML
+    Label studentRollId;
+
     private SelectionModel<Tab> mainTabSelection;
     private SelectionModel<Tab> walletTabSelection;
     private SelectionModel<Tab> accountTabSelection;
@@ -110,6 +126,8 @@ public class StudentController implements Initializable {
     private Date date;
 
     private int mainSelectedTab = 0;
+    private double xOffset;
+    private double yOffset;
 
 
     @Override
@@ -120,8 +138,14 @@ public class StudentController implements Initializable {
 
         time = Time.valueOf(LocalTime.now());
         date = Date.valueOf(PersianDate.now().toString());
+        setDayAndDate();
+        studentRollId.setText(String.valueOf(
+                (long) SharedPreferences
+                        .get("loggedInStudent"))
+        );
 
-        SharedPreferences.add("loggedInStudent", (long) 963111213);
+        mealSection.setStyle("-fx-background-color: white;" +
+                "-fx-text-fill: #0f4c75");
 
         exec = Executors.newCachedThreadPool((runnable) -> {
             Thread t = new Thread(runnable);
@@ -136,6 +160,12 @@ public class StudentController implements Initializable {
         mealCalendarMealTypeFilterInjection();
     }
 
+    private void setDayAndDate() {
+        PersianDate today = PersianDate.now();
+        String dayAndDate = today.getDayOfWeek() + " " +
+                today.toString().replaceAll("-", "/");
+        dateInfo.setText(dayAndDate);
+    }
 
     // Start------------ Meal -------------
 
@@ -462,9 +492,15 @@ public class StudentController implements Initializable {
             task.setOnFailed(e -> task.getException().printStackTrace());
             task.setOnSucceeded(e -> {
                 Boolean taskStudent = task.getValue();
-                if (taskStudent) System.out.println("reserved");
-                else System.out.println("something went wrong");
-                setupMealCalendar();
+                if (taskStudent) {
+                    System.out.println("reserved");
+                    new AlertHandler(Alert.AlertType.NONE,
+                            "Meal reserved!");
+                    setupMealCalendar();
+                } else {
+                    new AlertHandler(Alert.AlertType.ERROR,
+                            "Not enough balance!");
+                }
             });
             exec.execute(task);
         } catch (Exception e) {
@@ -707,6 +743,52 @@ public class StudentController implements Initializable {
     }
 
     // End-------------- Wallet > Charge Wallet -------------
+
+    // Start---------------- Logout -------------
+
+    @FXML
+    private void onLogout() {
+        try {
+            Stage currentStage =
+                    (Stage) sectionTitle.getScene()
+                            .getWindow();
+            currentStage.close();
+            loginStage();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    private void loginStage() throws IOException {
+        URL url = new File("src/main/java/sample/admin.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Stage stage = new Stage();
+        stage.setTitle("Hello World");
+        stage.initStyle(StageStyle.TRANSPARENT);
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
+    }
+
+    // End---------------- Logout -------------
 
     //TabPane stuff
 
