@@ -57,8 +57,8 @@ public class StudentDAO implements IntStudent {
         Procedure procedure = new Procedure("SaveStudent");
         procedure.addField("ri", student.getRollId());
         procedure.addField("i", student.getId());
-        procedure.addField("fn", student.getFirstName());
-        procedure.addField("ln", student.getLastName());
+        procedure.addField("fn", "'" + student.getFirstName() + "'");
+        procedure.addField("ln", "'" + student.getLastName() + "'");
         procedure.addField("s", student.getGender());
         procedure.addField("ml", student.getMealLimit());
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
@@ -68,8 +68,8 @@ public class StudentDAO implements IntStudent {
     public boolean updateNameSex(Student student) throws SQLException {
         Procedure procedure = new Procedure("UpdateStudentFirstNameLastName");
         procedure.addField("ri", student.getRollId());
-        procedure.addField("fn", student.getFirstName());
-        procedure.addField("ln", student.getLastName());
+        procedure.addField("fn", "'" + student.getFirstName() + "'");
+        procedure.addField("ln", "'" + student.getLastName() + "'");
         procedure.addField("sx", student.getGender());
         procedure.addField("ml", student.getMealLimit());
         return new Executor(statement).ExecuteUpdate(procedure) > 0;

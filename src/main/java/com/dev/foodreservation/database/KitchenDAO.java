@@ -26,7 +26,7 @@ public class KitchenDAO implements IntKitchen {
     @Override
     public int create(String name, byte kitchenType) throws SQLException {
         Procedure procedure = new Procedure("SaveKitchen");
-        procedure.addField("n", name);
+        procedure.addField("n", "'" + name + "'");
         procedure.addField("kt", kitchenType);
         return new Executor(statement).ExecuteUpdate(procedure);
     }
@@ -42,7 +42,7 @@ public class KitchenDAO implements IntKitchen {
     public int update(Kitchen kitchen) throws SQLException {
         Procedure procedure = new Procedure("UpdateKitchen");
         procedure.addField("id", kitchen.getId());
-        procedure.addField("n", kitchen.getName());
+        procedure.addField("n", "'" + kitchen.getName() + "'");
         procedure.addField("kt", kitchen.getKitchenType());
         return new Executor(statement).ExecuteUpdate(procedure);
     }
@@ -52,7 +52,7 @@ public class KitchenDAO implements IntKitchen {
         Procedure procedure =
                 new Procedure("InsertStudentKitchen");
         procedure.addField("sri", studentRollId);
-        for(int ki : kitchenId){
+        for (int ki : kitchenId) {
             procedure.addField("ki", ki);
             new Executor(statement).ExecuteUpdate(procedure);
         }

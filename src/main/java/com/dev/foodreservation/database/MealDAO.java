@@ -25,7 +25,7 @@ public class MealDAO implements IntMeal {
     public boolean add(String mealName, byte mealType, double price)
             throws SQLException {
         Procedure procedure = new Procedure("SaveMeal");
-        procedure.addField("n", mealName);
+        procedure.addField("n", "'" + mealName + "'");
         procedure.addField("mt", mealType);
         procedure.addField("p", price);
         return new Executor(statement).ExecuteUpdate(procedure) > 0;
@@ -43,7 +43,7 @@ public class MealDAO implements IntMeal {
             throws SQLException {
         Procedure procedure = new Procedure("UpdateMeal");
         procedure.addField("i", id);
-        procedure.addField("n", name);
+        procedure.addField("n", "'" + name + "'");
         procedure.addField("mt", mealType);
         procedure.addField("p", price);
         return new Executor(statement).ExecuteUpdate(procedure) > 0;

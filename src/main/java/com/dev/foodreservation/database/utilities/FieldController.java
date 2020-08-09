@@ -8,4 +8,5 @@ public class FieldController {
     public static final int DOUBLE = 4;
     public static final int PASSWORD = 5;
     public static final int NUMERIC = 6;
+    public static final int STRING_SPACE = 7;
 }

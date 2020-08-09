@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1085.0" style="-fx-background-color: transparent;" stylesheets="@TableStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1130.0" style="-fx-background-color: transparent;" stylesheets="@TableStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <AnchorPane layoutX="27.0" layoutY="23.0" prefHeight="622.0" prefWidth="952.0" style="-fx-background-color: white; -fx-background-radius: 2em;" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="23.0">
          <children>
@@ -269,7 +269,6 @@
                                                             </Label>
                                                             <JFXComboBox fx:id="studentModificationFilter" disable="true" focusColor="#0f4c75" focusTraversable="false" labelFloat="true" onAction="#setModificationSection" promptText="Modification" unFocusColor="#0f4c75" />
                                                             <JFXButton fx:id="studentModificationSaveButton" disable="true" focusTraversable="false" onMouseClicked="#updateStudent" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
-                                                            <JFXButton disable="true" focusTraversable="false" layoutX="667.0" layoutY="14.0" onMouseClicked="#updateStudent" prefHeight="26.0" prefWidth="63.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets />
@@ -465,7 +464,6 @@
                                                                </font>
                                                             </Label>
                                                             <JFXButton fx:id="mealModifySaveButton" maxWidth="74.0" onMouseClicked="#updateMeal" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
-                                                            <JFXButton layoutX="656.0" layoutY="10.0" maxWidth="74.0" onMouseClicked="#updateMeal" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="5.0" />
@@ -499,7 +497,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
                                                       <HBox alignment="CENTER" spacing="10.0">
                                                          <children>
@@ -516,7 +514,7 @@
                                                                   <Insets />
                                                                </HBox.margin>
                                                             </Label>
-                                                            <JFXComboBox fx:id="mealCalendarKitchenFilter" labelFloat="true" promptText="Kitchen" />
+                                                            <JFXComboBox fx:id="mealCalendarKitchenFilter" labelFloat="true" onAction="#onMealCalendarKitchenFilter" promptText="Kitchen" />
                                                             <JFXButton fx:id="preButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#previousWeekRange" style="-fx-background-color: #0f4c75;" text="&lt;&lt;" textFill="WHITE" />
                                                             <JFXButton fx:id="nextButton" layoutX="346.0" layoutY="48.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#nextWeekRange" style="-fx-background-color: #0f4c75;" text="&gt;&gt;" textFill="WHITE" />
                                                          </children>
@@ -670,7 +668,6 @@
                                                                </font>
                                                             </Label>
                                                             <JFXButton fx:id="changeKitchenSaveButton" maxWidth="74.0" onMouseClicked="#updateKitchen" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Save" textFill="WHITE" />
-                                                            <JFXButton layoutX="656.0" layoutY="10.0" maxWidth="74.0" onMouseClicked="#updateKitchen" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #0f4c75;" text="Delete" textFill="WHITE" />
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets bottom="5.0" />

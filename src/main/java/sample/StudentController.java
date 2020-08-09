@@ -109,6 +109,8 @@ public class StudentController implements Initializable {
     private Time time;
     private Date date;
 
+    private int mainSelectedTab = 0;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -733,18 +735,33 @@ public class StudentController implements Initializable {
     @FXML
     private void onMealSection() {
         mainTabSelection.select(0);
+        sectionTitle.setText("Meal");
+        changeBackgroundColor(0);
+        mealSection.setStyle("-fx-background-color: white;" +
+                "-fx-text-fill: #0f4c75");
+        mainSelectedTab = 0;
     }
 
     @FXML
     private void onWalletSection() {
         mainTabSelection.select(1);
         onWalletInfo();
+        sectionTitle.setText("Wallet");
+        changeBackgroundColor(1);
+        walletSection.setStyle("-fx-background-color: white;" +
+                "-fx-text-fill: #0f4c75");
+        mainSelectedTab = 1;
     }
 
     @FXML
     private void onAccountSection() {
         mainTabSelection.select(2);
         accountTabSelection.select(0);
+        sectionTitle.setText("Account");
+        changeBackgroundColor(2);
+        accountSection.setStyle("-fx-background-color: white;" +
+                "-fx-text-fill: #0f4c75");
+        mainSelectedTab = 2;
     }
 
 
@@ -798,6 +815,17 @@ public class StudentController implements Initializable {
             }
         }
         return null;
+    }
+
+    private void changeBackgroundColor(int mainSelectedTab) {
+        if (mainSelectedTab != this.mainSelectedTab) {
+            if (this.mainSelectedTab == 0)
+                mealSection.setStyle("-fx-background-color: transparent");
+            else if (this.mainSelectedTab == 1)
+                walletSection.setStyle("-fx-background-color: transparent");
+            else if (this.mainSelectedTab == 2)
+                accountSection.setStyle("-fx-background-color: transparent");
+        }
     }
 
     private void addComboItems(JFXComboBox comboBox,

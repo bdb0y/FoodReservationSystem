@@ -4,7 +4,9 @@ import com.dev.foodreservation.database.KitchenDAO;
 import com.dev.foodreservation.database.MealCalendarDAO;
 import com.dev.foodreservation.database.MealDAO;
 import com.dev.foodreservation.database.StudentDAO;
+import com.dev.foodreservation.database.utilities.AlertHandler;
 import com.dev.foodreservation.database.utilities.FieldController;
+import com.dev.foodreservation.database.utilities.FieldHandler;
 import com.dev.foodreservation.database.utilities.SharedPreferences;
 import com.dev.foodreservation.objects.*;
 import com.github.mfathi91.time.PersianDate;
@@ -135,7 +137,7 @@ public class Controller implements Initializable {
     @FXML
     JFXButton nextButton;
     @FXML
-    JFXComboBox mealCalendarKitchenFilter;
+    JFXComboBox<Kitchen> mealCalendarKitchenFilter;
     @FXML
     JFXComboBox mealCalendarMealType;
     @FXML
@@ -301,7 +303,6 @@ public class Controller implements Initializable {
         });
 
         mealCalendarTableViewInitializer();
-        mealCalendarKitchenFilterInjection();
         mealCalendarMealTypeFilterInjection();
     }
 
@@ -309,16 +310,23 @@ public class Controller implements Initializable {
 
     @FXML
     private void addStudentSubmit() {
-//        try {
-//            new StudentDAO().save(student);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
         try {
-            System.out.println(addStudentSectionFields());
-            showAlert(true);
+            Student student = addStudentSectionFields();
+            try {
+                new StudentDAO().save(student);
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Student added successfully!");
+                new FieldHandler().clearFields(rollIdField,
+                        nationalIdField, firstNameField, lastNameField,
+                        mealLimitField);
+            } catch (SQLException e) {
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "This student already exists!");
+            }
         } catch (Exception e) {
-            showAlert(false);
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are incorrect!");
         }
     }
 
@@ -327,9 +335,9 @@ public class Controller implements Initializable {
                 (long) getFieldValue(rollIdField, FieldController.LONG),
                 (long) getFieldValue(nationalIdField, FieldController.LONG),
                 (String) getFieldValue(firstNameField,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (String) getFieldValue(lastNameField,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (byte) radioButtonValue(new RadioButton[]{male, female}),
                 (byte) getFieldValue(mealLimitField,
                         FieldController.BYTE)
@@ -411,36 +419,39 @@ public class Controller implements Initializable {
 
     @FXML
     private void updateStudent() {
-//        try {
-//            new StudentDAO().updateNameSex(student);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
         try {
-            System.out.println(updateStudentModifySectionFields());
+            Student student = updateStudentModifySectionFields();
+            try {
+                new StudentDAO().updateNameSex(student);
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Student modified successfully!");
+                studentModificationSearchButtonListener();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Something went wrong!");
+            }
         } catch (NullPointerException e) {
-            System.out.println("The information is exactly the " +
-                    "same nothing to change");
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are wrong!");
         }
     }
 
     private Student updateStudentModifySectionFields() {
         Student student = (Student) SharedPreferences
                 .get("selectedStudentModifySection");
-        Student newStudent = new Student(
+        return new Student(
                 student.getRollId(),
                 student.getId(),
                 (String) getFieldValue(changeFirstName,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (String) getFieldValue(changeLastName,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (byte) radioButtonValue(new RadioButton[]{changeMale,
                         changeFemale}),
                 (byte) getFieldValue(changeMealLimit,
                         FieldController.BYTE)
         );
-        if (student.differs(newStudent)) return newStudent;
-        else throw new NullPointerException();
     }
 
     private void modifyStudentFilterInjection() {
@@ -495,7 +506,27 @@ public class Controller implements Initializable {
 
     @FXML
     private void addMealSubmit() {
-        System.out.println(addMealSectionFields());
+        try {
+            Meal meal = addMealSectionFields();
+            try {
+                new MealDAO().add(
+                        meal.getName(),
+                        meal.getType(),
+                        meal.getPrice()
+                );
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Meal added successfully!");
+                new FieldHandler().clearFields(nameField,
+                        priceField);
+            } catch (Exception e) {
+                e.printStackTrace();
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Something went wrong!");
+            }
+        } catch (Exception e) {
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are wrong!");
+        }
     }
 
     private Meal addMealSectionFields() {
@@ -504,7 +535,7 @@ public class Controller implements Initializable {
                 (byte) typeFilter.getSelectionModel()
                         .getSelectedIndex(),
                 (String) getFieldValue(nameField,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (double) getFieldValue(priceField,
                         FieldController.DOUBLE)
         );
@@ -562,7 +593,29 @@ public class Controller implements Initializable {
 
     @FXML
     private void updateMeal() {
-        System.out.println(changeMealFields());
+        try {
+            Meal meal = changeMealFields();
+            try {
+                new MealDAO().updateInfo(
+                        meal.getId(),
+                        meal.getName(),
+                        meal.getType(),
+                        meal.getPrice()
+                );
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Meal updated successfully!");
+                new FieldHandler().clearFields(nameField,
+                        priceField);
+                searchMeal();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Something went wrong!");
+            }
+        } catch (Exception e) {
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are wrong!");
+        }
     }
 
 
@@ -575,7 +628,7 @@ public class Controller implements Initializable {
                 (byte) changeMealTypeFilter.getSelectionModel()
                         .getSelectedIndex(),
                 (String) getFieldValue(changeMealName,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (double) getFieldValue(changeMealPrice,
                         FieldController.DOUBLE)
         );
@@ -678,6 +731,7 @@ public class Controller implements Initializable {
     }
 
     private void mealCalendarKitchenFilterInjection() {
+        mealCalendarKitchenFilter.getItems().clear();
         Task<List<Kitchen>> task = new Task<>() {
             @Override
             public List<Kitchen> call() throws Exception {
@@ -692,13 +746,20 @@ public class Controller implements Initializable {
                     .getItems().addAll(taskKitchens);
             mealCalendarKitchenFilter.getSelectionModel()
                     .select(0);
-            selectedKitchen
-                    .setText(String.valueOf(mealCalendarKitchenFilter
-                            .getSelectionModel()
-                            .getSelectedItem().toString()));
-            setupMealCalendar();
         });
         exec.execute(task);
+    }
+
+    @FXML
+    private void onMealCalendarKitchenFilter() {
+        Kitchen kitchen = mealCalendarKitchenFilter
+                .getSelectionModel()
+                .getSelectedItem();
+        if (kitchen != null) {
+            selectedKitchen
+                    .setText(String.valueOf(kitchen.getName()));
+            setupMealCalendar();
+        }
     }
 
     private void mealCalendarMealTypeFilterInjection() {
@@ -733,7 +794,8 @@ public class Controller implements Initializable {
                 PersianDate fromDate = (PersianDate) SharedPreferences.get("fromDate"),
                         toDate = (PersianDate) SharedPreferences.get("toDate");
                 return new MealCalendarDAO().getMealCalendar(
-                        1,
+                        mealCalendarKitchenFilter.getSelectionModel()
+                                .getSelectedItem().getId(),
                         Date.valueOf(fromDate.toString()),
                         Date.valueOf(toDate.toString())
                 );
@@ -865,7 +927,7 @@ public class Controller implements Initializable {
                 Task<Boolean> task = new Task<>() {
                     @Override
                     public Boolean call() throws Exception {
-                        if(finalMealCalendarId1 != -1) {
+                        if (finalMealCalendarId1 != -1) {
                             return new MealCalendarDAO().updateMeal(
                                     finalMealCalendarId,
                                     newMealId,
@@ -873,7 +935,7 @@ public class Controller implements Initializable {
                                     date,
                                     Date.valueOf(PersianDate.now().toString())
                             );
-                        }else {
+                        } else {
                             return new MealCalendarDAO().addMeal(
                                     newMealId,
                                     kitchenId,
@@ -945,14 +1007,33 @@ public class Controller implements Initializable {
 
     @FXML
     private void addKitchenSubmit() {
-        System.out.println(addKitchenSectionFields());
+        try {
+            Kitchen kitchen = addKitchenSectionFields();
+            try {
+                new KitchenDAO().create(
+                        kitchen.getName(),
+                        kitchen.getKitchenType()
+                );
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Kitchen added successfully!");
+                new FieldHandler().clearFields(kitchenName);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Something went wrong!");
+            }
+        } catch (Exception e) {
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are wrong!");
+        }
     }
 
     private Kitchen addKitchenSectionFields() {
         return new Kitchen(
                 0,
                 (String) getFieldValue(kitchenName,
-                        FieldController.STRING),
+                        FieldController.STRING_SPACE),
                 (byte) kitchenType.getSelectionModel()
                         .getSelectedIndex()
         );
@@ -971,7 +1052,25 @@ public class Controller implements Initializable {
 
     @FXML
     private void updateKitchen() {
-        System.out.println(changeKitchenFields());
+        try {
+            Kitchen kitchen = changeKitchenFields();
+            try {
+                new KitchenDAO().update(
+                        kitchen
+                );
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Kitchen updated successfully!");
+                new FieldHandler().clearFields(kitchenName);
+                searchKitchen();
+            } catch (Exception e) {
+                e.printStackTrace();
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Something went wrong!");
+            }
+        } catch (Exception e) {
+            new AlertHandler(Alert.AlertType.ERROR,
+                    "Fields are wrong!");
+        }
     }
 
     private Kitchen changeKitchenFields() {
@@ -1276,8 +1375,10 @@ public class Controller implements Initializable {
         modifyMealTab.setOnMouseClicked(event ->
                 mealTabSelection.select(1));
 
-        mealCalendarTab.setOnMouseClicked(event ->
-                mealTabSelection.select(2));
+        mealCalendarTab.setOnMouseClicked(event -> {
+            mealTabSelection.select(2);
+            mealCalendarKitchenFilterInjection();
+        });
     }
 
     private void sideMenuClickListeners() {
@@ -1365,25 +1466,50 @@ public class Controller implements Initializable {
             try {
                 return Byte.parseByte(value);
             } catch (NumberFormatException e) {
-                return null;
+                return new InputMismatchException();
             }
         } else if (fieldController == FieldController.INTEGER) {
             try {
                 return Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                return null;
+                return new InputMismatchException();
             }
         } else if (fieldController == FieldController.LONG) {
             try {
                 return Long.parseLong(value);
             } catch (NumberFormatException e) {
-                return null;
+                return new InputMismatchException();
             }
         } else if (fieldController == FieldController.DOUBLE) {
             try {
                 return Double.parseDouble(value);
             } catch (NumberFormatException e) {
-                return null;
+                return new InputMismatchException();
+            }
+        } else if (fieldController == FieldController.PASSWORD) {
+            try {
+                return value.trim();
+            } catch (Exception e) {
+                return new InputMismatchException();
+            }
+        } else if (fieldController == FieldController.NUMERIC) {
+            try {
+                for (char c : value.toCharArray())
+                    if (!Character.isDigit(c))
+                        throw new InputMismatchException();
+                return value.trim();
+            } catch (Exception e) {
+                return new InputMismatchException();
+            }
+        } else if (fieldController == FieldController.STRING_SPACE) {
+            try {
+                for (char c : value.toCharArray())
+                    if (!Character.isAlphabetic(c))
+                        if (!Character.isSpaceChar(c))
+                            throw new InputMismatchException();
+                return value.trim();
+            } catch (Exception e) {
+                return new InputMismatchException();
             }
         }
         return null;
