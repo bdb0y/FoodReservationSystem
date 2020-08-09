@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection implements Database{
+public class DatabaseConnection implements Database {
 
-    private final static String URL = "jdbc:jtds:sqlserver://DESKTOP-142OO4N:1433/MealAutomation;instance=SQLEXPRESS";
-    private final static String USERNAME = "DESKTOP-142OO4N\\amin";
-    private final static String PASSWORD = "*#qkedyisnotmine#*";
+    private final static String URL = DatabaseConstants.URL;
     private Connection connection;
+
     @Override
     public Connection connect() throws SQLException {
         connection = DriverManager.getConnection(URL);

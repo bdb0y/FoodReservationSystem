@@ -89,7 +89,7 @@ public class StudentController implements Initializable {
     @FXML
     JFXButton nextButton;
     @FXML
-    JFXComboBox mealCalendarKitchenFilter;
+    JFXComboBox<Kitchen> mealCalendarKitchenFilter;
     @FXML
     JFXComboBox mealCalendarMealType;
     @FXML
@@ -236,7 +236,10 @@ public class StudentController implements Initializable {
         Task<List<Kitchen>> task = new Task<>() {
             @Override
             public List<Kitchen> call() throws Exception {
-                return new KitchenDAO().idGet(-1);
+                return new KitchenDAO().getStudentKitchen(
+                        (long) SharedPreferences
+                                .get("loggedInStudent")
+                );
             }
         };
 
@@ -245,15 +248,29 @@ public class StudentController implements Initializable {
             List<Kitchen> taskKitchens = task.getValue();
             mealCalendarKitchenFilter
                     .getItems().addAll(taskKitchens);
-            mealCalendarKitchenFilter.getSelectionModel()
-                    .select(0);
-            selectedKitchen
-                    .setText(String.valueOf(mealCalendarKitchenFilter
-                            .getSelectionModel()
-                            .getSelectedItem().toString()));
-            setupMealCalendar();
+            if (taskKitchens.size() > 0) {
+                mealCalendarKitchenFilter.getSelectionModel()
+                        .select(0);
+                selectedKitchen
+                        .setText(String.
+                                valueOf(mealCalendarKitchenFilter
+                                .getSelectionModel()
+                                .getSelectedItem().toString()));
+            }
         });
         exec.execute(task);
+    }
+
+    @FXML
+    private void onMealCalendarKitchenFilter() {
+        Kitchen kitchen = mealCalendarKitchenFilter
+                .getSelectionModel()
+                .getSelectedItem();
+        if (kitchen != null) {
+            selectedKitchen
+                    .setText(String.valueOf(kitchen.getName()));
+            setupMealCalendar();
+        }
     }
 
     @FXML
@@ -304,7 +321,9 @@ public class StudentController implements Initializable {
                 PersianDate fromDate = (PersianDate) SharedPreferences.get("fromDate"),
                         toDate = (PersianDate) SharedPreferences.get("toDate");
                 return new MealCalendarDAO().getMealCalendar(
-                        1,
+                        mealCalendarKitchenFilter
+                                .getSelectionModel()
+                                .getSelectedItem().getId(),
                         Date.valueOf(fromDate.toString()),
                         Date.valueOf(toDate.toString())
                 );
@@ -463,8 +482,9 @@ public class StudentController implements Initializable {
             if (mealCalendarTableView.getSelectionModel()
                     .getSelectedItem() != null)
                 selectMeal(
-                        (SetupMealCalendar) mealCalendarTableView
-                                .getSelectionModel().getSelectedItem()
+                        mealCalendarTableView
+                                .getSelectionModel()
+                                .getSelectedItem()
                 );
         });
         exec.execute(task);
@@ -499,7 +519,7 @@ public class StudentController implements Initializable {
                     setupMealCalendar();
                 } else {
                     new AlertHandler(Alert.AlertType.ERROR,
-                            "Not enough balance!");
+                            "Not enough balance or date is incorrect!");
                 }
             });
             exec.execute(task);
@@ -525,9 +545,17 @@ public class StudentController implements Initializable {
         task.setOnFailed(e -> task.getException().printStackTrace());
         task.setOnSucceeded(e -> {
             Boolean taskStudent = task.getValue();
-            if (taskStudent) System.out.println("canceled");
-            else System.out.println("something went wrong");
-            setupMealCalendar();
+            if (taskStudent) {
+                new AlertHandler(Alert.AlertType.NONE,
+                        "Meal canceled successfully!");
+                setupMealCalendar();
+            } else {
+                new AlertHandler(Alert.AlertType.ERROR,
+                        "Wrong date");
+                setupMealCalendar();
+            }
+            ;
+
         });
         exec.execute(task);
     }

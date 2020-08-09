@@ -48,12 +48,20 @@ public class KitchenDAO implements IntKitchen {
     }
 
     @Override
-    public boolean addStudentKitchen(long studentRollId, int... kitchenId) throws SQLException {
+    public boolean addStudentKitchen(long studentRollId, int kitchenId) throws SQLException {
         Procedure procedure =
                 new Procedure("InsertStudentKitchen");
         procedure.addField("sri", studentRollId);
-        for (int ki : kitchenId) {
-            procedure.addField("ki", ki);
+        procedure.addField("ki", kitchenId);
+        return new Executor(statement).ExecuteUpdate(procedure) > 0;
+    }
+
+    @Override
+    public boolean removeStudentKitchen(int... kitchenId)
+            throws SQLException {
+        Procedure procedure = new Procedure("RemoveStudentKitchen");
+        for (int id : kitchenId) {
+            procedure.addField("id", id);
             new Executor(statement).ExecuteUpdate(procedure);
         }
         return true;
@@ -92,7 +100,20 @@ public class KitchenDAO implements IntKitchen {
         return kitchens;
     }
 
-    private Kitchen kitchenRSV(ResultSet resultSet) throws SQLException {
+    @Override
+    public List<Kitchen> getStudentKitchen(long rollId)
+            throws SQLException {
+        Procedure procedure = new Procedure("GetStudentKitchen");
+        procedure.addField("id", rollId);
+        List<Kitchen> kitchens = new ArrayList<>();
+        ResultSet resultSet = new Executor(statement)
+                .Execute(procedure);
+        while (resultSet.next()) kitchens.add(kitchenRSV(resultSet));
+        return kitchens;
+    }
+
+    private Kitchen kitchenRSV(ResultSet resultSet)
+            throws SQLException {
         return new Kitchen(
                 resultSet.getInt(1),
                 resultSet.getString(2),

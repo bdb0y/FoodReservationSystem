@@ -77,10 +77,6 @@ public class AdminController implements Initializable {
     @FXML
     private JFXTextField mealLimitField;
     @FXML
-    private JFXListView kitchenList;
-    @FXML
-    private JFXListView selectedKitchenList;
-    @FXML
     JFXButton submitButton;
     @FXML
     JFXButton modifyStudentTab;
@@ -261,22 +257,22 @@ public class AdminController implements Initializable {
         studentModifyTableViewSelection =
                 studentModifyTableView.getSelectionModel();
 
-        kitchenList.getItems().add("Uni");
-        kitchenList.getItems().add("Dorm");
-        kitchenList.getItems().add("Dorm2");
-        kitchenList.setOnMouseClicked(event -> {
-            Object selectedItem = kitchenList.getSelectionModel().getSelectedItem();
-            if (!selectedKitchenList.getItems().contains(selectedItem)
-                    && selectedItem != null)
-                selectedKitchenList.getItems().add(selectedItem);
-            kitchenList.getSelectionModel().clearSelection();
-        });
-        selectedKitchenList.setOnMouseClicked(event -> {
-            selectedKitchenList.getItems()
-                    .remove(selectedKitchenList.getSelectionModel()
-                            .getSelectedItem());
-            selectedKitchenList.getSelectionModel().clearSelection();
-        });
+//        kitchenList.getItems().add("Uni");
+//        kitchenList.getItems().add("Dorm");
+//        kitchenList.getItems().add("Dorm2");
+//        kitchenList.setOnMouseClicked(event -> {
+//            Object selectedItem = kitchenList.getSelectionModel().getSelectedItem();
+//            if (!selectedKitchenList.getItems().contains(selectedItem)
+//                    && selectedItem != null)
+//                selectedKitchenList.getItems().add(selectedItem);
+//            kitchenList.getSelectionModel().clearSelection();
+//        });
+//        selectedKitchenList.setOnMouseClicked(event -> {
+//            selectedKitchenList.getItems()
+//                    .remove(selectedKitchenList.getSelectionModel()
+//                            .getSelectedItem());
+//            selectedKitchenList.getSelectionModel().clearSelection();
+//        });
 
 
         setDayAndDate();
@@ -328,13 +324,25 @@ public class AdminController implements Initializable {
         try {
             Student student = addStudentSectionFields();
             try {
-                new StudentDAO().save(student);
-                new AlertHandler(Alert.AlertType.NONE,
-                        "Student added successfully!");
-                new FieldHandler().clearFields(rollIdField,
-                        nationalIdField, firstNameField, lastNameField,
-                        mealLimitField);
+                boolean added = new StudentDAO().save(student);
+                if (added) {
+                    new AlertHandler(Alert.AlertType.NONE,
+                            "Student added successfully!");
+                    new FieldHandler().clearFields(rollIdField,
+                            nationalIdField, firstNameField, lastNameField,
+                            mealLimitField);
+                    List<Kitchen> kitchens =
+                            new KitchenDAO().typeGet(student
+                                    .getGender());
+                    for (Kitchen kitchen : kitchens) {
+                        new KitchenDAO().addStudentKitchen(
+                                student.getRollId(),
+                                kitchen.getId()
+                        );
+                    }
+                }
             } catch (SQLException e) {
+                e.printStackTrace();
                 new AlertHandler(Alert.AlertType.ERROR,
                         "This student already exists!");
             }
@@ -474,8 +482,7 @@ public class AdminController implements Initializable {
         studentModifySearchFilterCombo
                 .getSelectionModel().select(0);
         addComboItems(studentModificationFilter,
-                "Personal information", "Meal information",
-                "Kitchen information");
+                "Personal information", "Meal information");
         studentModificationFilter
                 .getSelectionModel().select(0);
     }
